@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window/Window.hpp"
+#include "Input/Keyboard.hpp"
 
 class Engine
 {
@@ -15,10 +16,10 @@ public:
 		return this->m_window.ProcessMessages();
 	}
 
-	LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-	{
-		return DefWindowProc(hwnd, uMsg, wParam, lParam);
-	}
+	void Update();
+
+	LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 private:
 	Window m_window;
+	Keyboard m_keyboard;
 };

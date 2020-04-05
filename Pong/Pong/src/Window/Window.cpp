@@ -4,13 +4,13 @@
 
 bool Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 {
-	m_hInstance			= hInstance;
-	m_width				= width;
-	m_height				= height;
-	m_window_title		= window_title;
-	m_window_title_wide	= StringConverter::to_wstring(this->m_window_title);
-	m_window_class		= window_class;
-	m_window_class_wide	= StringConverter::to_wstring(this->m_window_class);
+	m_hInstance = hInstance;
+	m_width = width;
+	m_height = height;
+	m_window_title = window_title;
+	m_window_title_wide = StringConverter::to_wstring(this->m_window_title);
+	m_window_class = window_class;
+	m_window_class_wide = StringConverter::to_wstring(this->m_window_class);
 
 	// center window on screen
 	unsigned int posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
@@ -105,7 +105,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	default:
-		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		if(!pEngine)
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 
 	return pEngine->WindowProc(hwnd, uMsg, wParam, lParam);

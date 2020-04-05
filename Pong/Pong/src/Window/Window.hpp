@@ -16,13 +16,13 @@ public:
 private:
 	void registerWindowClass();
 
-	HWND m_handle						= NULL;
-	HINSTANCE m_hInstance				= NULL;
-	std::string m_window_title			= "";
-	std::wstring m_window_title_wide	= L"";
-	std::string m_window_class			= "";
-	std::wstring m_window_class_wide	= L"";
+	HWND m_handle = NULL;
+	HINSTANCE m_hInstance = NULL;
+	std::string m_window_title = "";
+	std::wstring m_window_title_wide = L"";
+	std::string m_window_class = "";
+	std::wstring m_window_class_wide = L"";
 
-	LONG m_width		= 0;
-	LONG m_height		= 0;
+	LONG m_width = 0;
+	LONG m_height = 0;
 };
