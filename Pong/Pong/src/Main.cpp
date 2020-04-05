@@ -1,16 +1,16 @@
 #include "pch.h"
 
-#include "Window/Window.hpp"
+#include "Engine.hpp"
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPWSTR    lpCmdLine,
-	_In_ int       nCmdShow)
+	_In_opt_ HINSTANCE /*hPrevInstance*/,
+	_In_ LPWSTR /*lpCmdLine*/, // unreferenced parameters (hPrevInstance, lpCmdLine, nCmdShow)
+	_In_ int /*nCmdShow*/)
 {
-	Window window;
-	window.Initialize(hInstance, "Pong", "PongClass1", 800, 600);
+	Engine engine;
+	engine.Initialize(hInstance, "Pong", "PongClass1", 800, 600);
 
-	while (window.ProcessMessages() == true)
+	while (engine.ProcessMessages() == true)
 	{
 	}
 
