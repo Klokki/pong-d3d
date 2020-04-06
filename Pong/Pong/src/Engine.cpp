@@ -14,16 +14,9 @@ void Engine::Update()
 		KeyboardEvent e = m_keyboard.ReadBuffer();
 		unsigned char keycode = e.GetKeyCode();
 
-		std::string out;
-
-		if (e.KeyDown())
-			out = "Key press: ";
-		if (e.KeyUp())
-			out = "Key release: ";
-
-		out += keycode;
-		out += "\n";
-		OutputDebugStringA(out.c_str());
+		// close window on ESC
+		if (keycode == VK_ESCAPE)
+			PostMessage(m_window.GetHWND(), WM_CLOSE, NULL, NULL);
 	}
 }
 
