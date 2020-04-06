@@ -40,16 +40,16 @@ void D3DObject::InitializeD3D(HWND hwnd, int width, int height)
 
 	HRESULT hr;
 	hr = D3D11CreateDeviceAndSwapChain(adapters[0].GetAdapter(), // DXGI adapter
-		D3D_DRIVER_TYPE_UNKNOWN,
-		NULL,
-		NULL,
-		NULL,
-		0,
+		D3D_DRIVER_TYPE_UNKNOWN, // Driver type
+		NULL, // For D3D_DRIVER_TYPE_SOFTWARE
+		NULL, // Layer flags
+		NULL, // D3D_FEATURE_LEVELS (use default)
+		0, // Number of feature levels in previous parameter
 		D3D11_SDK_VERSION,
 		&swapChainDesc,
 		m_swapchain.GetAddressOf(),
 		m_device.GetAddressOf(),
-		NULL,
+		NULL, // Supported feature level
 		m_deviceContext.GetAddressOf());
 
 	if (FAILED(hr))
