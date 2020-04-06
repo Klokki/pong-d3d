@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "Engine.hpp"
 
+Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
+{
+	m_window.Initialize(this, hInstance, window_title, window_class, width, height);
+}
+
 void Engine::Update()
 {
 	while (!m_keyboard.KeyBufferEmpty())

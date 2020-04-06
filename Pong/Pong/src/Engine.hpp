@@ -6,14 +6,11 @@
 class Engine
 {
 public:
-	bool Initialize(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
-	{
-		return this->m_window.Initialize(this, hInstance, window_title, window_class, width, height);
-	}
+	Engine(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
 
 	bool ProcessMessages()
 	{
-		return this->m_window.ProcessMessages();
+		return m_window.ProcessMessages();
 	}
 
 	void Update();

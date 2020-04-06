@@ -1,5 +1,4 @@
 #include "pch.h"
-
 #include "Engine.hpp"
 
 constexpr unsigned int SCR_WIDTH = 800;
@@ -10,8 +9,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR /*lpCmdLine*/, // unreferenced parameters (hPrevInstance, lpCmdLine, nCmdShow)
 	_In_ int /*nCmdShow*/)
 {
-	Engine engine;
-	engine.Initialize(hInstance, "Pong", "PongClass1", SCR_WIDTH, SCR_HEIGHT);
+	Engine engine(hInstance, "Pong", "PongClass1", SCR_WIDTH, SCR_HEIGHT);
 
 	while (engine.ProcessMessages() == true)
 	{

@@ -2,19 +2,19 @@
 #include "Window.hpp"
 #include "Engine.hpp"
 
-bool Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
+void Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 {
 	m_hInstance = hInstance;
 	m_width = width;
 	m_height = height;
 	m_window_title = window_title;
-	m_window_title_wide = StringConverter::to_wstring(this->m_window_title);
+	m_window_title_wide = StringConverter::to_wstring(m_window_title);
 	m_window_class = window_class;
-	m_window_class_wide = StringConverter::to_wstring(this->m_window_class);
+	m_window_class_wide = StringConverter::to_wstring(m_window_class);
 
 	// center window on screen
-	unsigned int posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
-	unsigned int posY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+	unsigned int posX = (GetSystemMetrics(SM_CXSCREEN) - m_width) / 2;
+	unsigned int posY = (GetSystemMetrics(SM_CYSCREEN) - m_height) / 2;
 
 	// adjust window size according to width and height (of client)
 	RECT wr = { 0, 0, this->m_width, this->m_height };
@@ -40,16 +40,14 @@ bool Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_tit
 
 	if (m_handle == NULL)
 	{
-		Error::Message(GetLastError(), "CreateWindowEX failed for window " + this->m_window_title);
-		return false;
+		Error::Message(GetLastError(), "CreateWindowEX failed for window " + m_window_title);
+		exit(-1);
 	}
 
 	// show and set window as foreground
 	ShowWindow(m_handle, SW_SHOW);
-	SetForegroundWindow(this->m_handle);
+	SetForegroundWindow(m_handle);
 	SetFocus(m_handle);
-
-	return true;
 }
 
 bool Window::ProcessMessages()
@@ -88,14 +86,14 @@ Window::~Window()
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static Engine* pEngine = nullptr;
+	static Engine* p_engine = nullptr;
 
 	switch (uMsg)
 	{
 	case WM_NCCREATE:
 	{
 		CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
-		pEngine = reinterpret_cast<Engine*>(pCreate->lpCreateParams);
+		p_engine = reinterpret_cast<Engine*>(pCreate->lpCreateParams);
 	}break;
 
 	case WM_CLOSE:
@@ -105,11 +103,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	default:
-		if(!pEngine)
+		if(!p_engine)
 			return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 
-	return pEngine->WindowProc(hwnd, uMsg, wParam, lParam);
+	return p_engine->WindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 void Window::registerWindowClass()
