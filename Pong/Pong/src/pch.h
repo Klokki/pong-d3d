@@ -13,3 +13,6 @@
 #include <string>
 #include <queue>
 #include <vector>
+
+// PROJECT INCLUDES
+#include "Utility/Error.hpp"

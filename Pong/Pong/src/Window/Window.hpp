@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Utility/Error.hpp"
-
 // Window.hpp
 // Representation of a single Windows window
 
@@ -12,6 +10,7 @@ class Window
 public:
 	void Initialize(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
 	bool ProcessMessages();
+	HWND GetHWND() const { return m_handle; }
 	~Window();
 private:
 	void registerWindowClass();

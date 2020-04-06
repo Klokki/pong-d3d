@@ -2,6 +2,7 @@
 
 #include "Window/Window.hpp"
 #include "Input/Keyboard.hpp"
+#include "Graphics/Renderer.hpp"
 
 class Engine
 {
@@ -14,9 +15,11 @@ public:
 	}
 
 	void Update();
+	void Render();
 
 	LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 private:
 	Window m_window;
 	Keyboard m_keyboard;
+	Renderer m_renderer;
 };

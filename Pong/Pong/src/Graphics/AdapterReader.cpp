@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "AdapterReader.hpp"
-#include "Utility/Error.hpp"
 
 std::vector<AdapterData> AdapterReader::m_adapters;
 

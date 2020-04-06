@@ -55,7 +55,7 @@ bool Window::ProcessMessages()
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
-	if (PeekMessage(&msg, m_handle, 0, 0, PM_REMOVE))
+	while (PeekMessage(&msg, m_handle, 0, 0, PM_REMOVE))
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);

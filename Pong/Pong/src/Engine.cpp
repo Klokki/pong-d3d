@@ -4,6 +4,7 @@
 Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 {
 	m_window.Initialize(this, hInstance, window_title, window_class, width, height);
+	m_renderer.Initialize(m_window.GetHWND(), width, height);
 }
 
 void Engine::Update()
@@ -24,6 +25,11 @@ void Engine::Update()
 		out += "\n";
 		OutputDebugStringA(out.c_str());
 	}
+}
+
+void Engine::Render()
+{
+	m_renderer.Render();
 }
 
 LRESULT Engine::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

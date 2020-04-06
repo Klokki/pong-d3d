@@ -6,6 +6,8 @@
 class AdapterData
 {
 	friend class AdapterReader;
+public:
+	IDXGIAdapter* GetAdapter() const { return p_adapter; }
 protected:
 	AdapterData(IDXGIAdapter* adapter);
 	IDXGIAdapter* p_adapter = nullptr;
