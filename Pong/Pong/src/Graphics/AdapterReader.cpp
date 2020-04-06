@@ -16,7 +16,7 @@ std::vector<AdapterData> AdapterReader::GetAdapters()
 	if (FAILED(hr))
 	{
 		Error::Message(hr, "Failed to create DXGIFactory for enumerating adapters");
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
 
 	IDXGIAdapter* p_adapter;

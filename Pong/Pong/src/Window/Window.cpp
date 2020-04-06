@@ -41,7 +41,7 @@ void Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_tit
 	if (m_handle == NULL)
 	{
 		Error::Message(GetLastError(), "CreateWindowEX failed for window " + m_window_title);
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
 
 	// show and set window as foreground
