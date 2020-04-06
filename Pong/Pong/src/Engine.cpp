@@ -15,9 +15,9 @@ void Engine::Update()
 
 		std::string out;
 
-		if (e.IsPress())
+		if (e.KeyDown())
 			out = "Key press: ";
-		if (e.IsRelease())
+		if (e.KeyUp())
 			out = "Key release: ";
 
 		out += keycode;

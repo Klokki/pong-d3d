@@ -2,6 +2,9 @@
 
 #include "KeyboardEvent.hpp"
 
+// Keyboard.hpp
+// Contains the state of the keyboard (whether a specific key is pressed, etc)
+
 class Keyboard
 {
 public:

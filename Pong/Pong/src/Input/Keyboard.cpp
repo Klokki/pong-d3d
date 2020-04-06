@@ -17,11 +17,11 @@ KeyboardEvent Keyboard::ReadBuffer()
 void Keyboard::KeyDown(const unsigned char key)
 {
 	m_keys[key] = true;
-	m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::PRESS, key));
+	m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYDOWN, key));
 }
 
 void Keyboard::KeyReleased(const unsigned char key)
 {
 	m_keys[key] = false;
-	m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::RELEASE, key));
+	m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYUP, key));
 }

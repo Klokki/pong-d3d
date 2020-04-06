@@ -1,5 +1,8 @@
 #pragma once
 
+// AdapterReader.hpp
+// AdapterData stores information about a single adapter (video card)
+// AdapterReader contains a vector of all adapters (video cards)
 class AdapterData
 {
 	friend class AdapterReader;

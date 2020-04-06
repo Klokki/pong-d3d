@@ -1,12 +1,15 @@
 #pragma once
 
+// KeyboardEvent.hpp
+// A single keyboard event, whether keydown or keyup
+
 class KeyboardEvent
 {
 public:
 	enum class Type
 	{
-		PRESS,
-		RELEASE,
+		KEYDOWN,
+		KEYUP,
 		INVALID
 	};
 
@@ -22,8 +25,8 @@ public:
 		m_key = key;
 	}
 
-	bool IsPress() const { return m_type == Type::PRESS; }
-	bool IsRelease() const { return m_type == Type::RELEASE; }
+	bool KeyDown() const { return m_type == Type::KEYDOWN; }
+	bool KeyUp() const { return m_type == Type::KEYUP; }
 	bool IsValid() const { return m_type != Type::INVALID; }
 	unsigned char GetKeyCode() const { return m_key; }
 private:
