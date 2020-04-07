@@ -166,7 +166,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\Graphics\AdapterReader.cpp" />
     <ClCompile Include="src\Graphics\D3DObject.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Input\Keyboard.cpp" />
@@ -181,7 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.hpp" />
-    <ClInclude Include="src\Graphics\AdapterReader.hpp" />
     <ClInclude Include="src\Graphics\D3DObject.hpp" />
     <ClInclude Include="src\Graphics\Renderer.hpp" />
     <ClInclude Include="src\Input\Keyboard.hpp" />
