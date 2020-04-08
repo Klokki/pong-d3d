@@ -60,7 +60,8 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_lock);
 
-        if (m_profileCount++ > 0) { m_outputStream << ","; }
+        if (m_profileCount++ > 0)
+            m_outputStream << ",";
 
         std::string name = result.name;
         std::replace(name.begin(), name.end(), '"', '\'');

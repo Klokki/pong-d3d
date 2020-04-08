@@ -18,7 +18,7 @@ void Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_tit
 
 	// adjust window size according to width and height (of client)
 	RECT wr = { 0, 0, this->m_width, this->m_height };
-	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
 
 	this->registerWindowClass();
 
