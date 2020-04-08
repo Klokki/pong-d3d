@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Shader/Shader.hpp"
+
 // D3DObject.hpp
 // Contains D3D objects like the D3D11Device and context
 // Also has information about the adapters in the system
@@ -18,6 +20,7 @@ protected:
 class D3DObject {
 public:
 	static void InitializeD3D(HWND hwnd, int width, int height);
+	static void InitializeShaders();
 	static Microsoft::WRL::ComPtr<ID3D11Device> GetDevice() { return m_device; }
 	static Microsoft::WRL::ComPtr<ID3D11DeviceContext> GetContext() { return m_deviceContext; }
 	static Microsoft::WRL::ComPtr<IDXGISwapChain> GetSwapChain() { return m_swapchain; }
@@ -30,6 +33,10 @@ private:
 	static Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_deviceContext;
 	static Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapchain;
 	static Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
+
+	static Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+
+	static VertexShader m_vertexShader;
 
 	static std::vector<AdapterData> m_adapters;
 };

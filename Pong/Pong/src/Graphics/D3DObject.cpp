@@ -5,6 +5,9 @@ Microsoft::WRL::ComPtr<ID3D11Device> D3DObject::m_device;
 Microsoft::WRL::ComPtr<ID3D11DeviceContext> D3DObject::m_deviceContext;
 Microsoft::WRL::ComPtr<IDXGISwapChain> D3DObject::m_swapchain;
 Microsoft::WRL::ComPtr<ID3D11RenderTargetView> D3DObject::m_renderTargetView;
+Microsoft::WRL::ComPtr<ID3D11InputLayout> D3DObject::m_inputLayout;
+
+VertexShader D3DObject::m_vertexShader;
 
 std::vector<AdapterData> D3DObject::m_adapters;
 
@@ -78,6 +81,29 @@ void D3DObject::InitializeD3D(HWND hwnd, int width, int height)
 	}
 
 	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), NULL);
+}
+
+void D3DObject::InitializeShaders()
+{
+	m_vertexShader.Initialize(m_device, L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\bin\\Debug\\Vertex.cso");
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, 0,
+		D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0}
+	};
+
+	UINT numElements = ARRAYSIZE(layout);
+
+	HRESULT hr = m_device->CreateInputLayout(layout, numElements,
+		m_vertexShader.GetBuffer()->GetBufferPointer(),
+		m_vertexShader.GetBuffer()->GetBufferSize(),
+		m_inputLayout.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Could not create input layout");
+		exit(EXIT_FAILURE);
+	}
 }
 
 std::vector<AdapterData> D3DObject::getAdapters()

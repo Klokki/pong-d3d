@@ -5,6 +5,7 @@
 void Renderer::Initialize(HWND hwnd, int width, int height)
 {
 	D3DObject::InitializeD3D(hwnd, width, height);
+	D3DObject::InitializeShaders();
 }
 
 void Renderer::Render()
