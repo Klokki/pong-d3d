@@ -12,29 +12,28 @@ void Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_tit
 	m_window_class = window_class;
 	m_window_class_wide = StringConverter::to_wstring(m_window_class);
 
-	// center window on screen
-	unsigned int posX = (GetSystemMetrics(SM_CXSCREEN) - m_width) / 2;
-	unsigned int posY = (GetSystemMetrics(SM_CYSCREEN) - m_height) / 2;
+	registerWindowClass();
 
-	// adjust window size according to width and height (of client)
-	RECT wr = { 0, 0, this->m_width, this->m_height };
+	// Center window on screen and adjust the window rectangle
+	LONG posX = (GetSystemMetrics(SM_CXSCREEN) - m_width) / 2;
+	LONG posY = (GetSystemMetrics(SM_CYSCREEN) - m_height) / 2;
+
+	RECT wr = { posX, posY, posX + m_width, posY + m_height };
 	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
-
-	this->registerWindowClass();
 
 	m_handle = CreateWindowEx
 	(
 		WS_EX_APPWINDOW, // Forces a top-level window onto the taskbar when the window is visible
-		this->m_window_class_wide.c_str(),
-		this->m_window_title_wide.c_str(),
+		m_window_class_wide.c_str(),
+		m_window_title_wide.c_str(),
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		posX, // window X position
-		posY, // window Y position
+		wr.left, // window X position
+		wr.top, // window Y position
 		wr.right - wr.left, // window width
 		wr.bottom - wr.top, // window height
 		NULL,
 		NULL,
-		this->m_hInstance,
+		m_hInstance,
 		eng
 	);
 
