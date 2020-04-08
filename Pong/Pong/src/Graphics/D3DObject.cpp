@@ -85,7 +85,12 @@ void D3DObject::InitializeD3D(HWND hwnd, int width, int height)
 
 void D3DObject::InitializeShaders()
 {
-	m_vertexShader.Initialize(m_device, L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\bin\\Debug\\Vertex.cso");
+	// get output directory file path
+	WCHAR path[MAX_PATH];
+	GetModuleFileNameW(NULL, path, MAX_PATH);
+	PathCchRemoveFileSpec(path, sizeof(path));
+	m_vertexShader.Initialize(m_device, (std::wstring)path + L"\\Vertex.cso");
+
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, 0,

@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <comdef.h>
+#include <pathcch.h>
 #include <wrl/client.h>
 
 // DIRECTX INCLUDES
