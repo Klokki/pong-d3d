@@ -34,8 +34,6 @@ private:
 	static Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapchain;
 	static Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
 
-	static Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
-
 	static VertexShader m_vertexShader;
 
 	static std::vector<AdapterData> m_adapters;
