@@ -22,4 +22,5 @@ private:
 	Window m_window;
 	Keyboard m_keyboard;
 	Renderer m_renderer;
+	//Renderer m_renderer;
 };

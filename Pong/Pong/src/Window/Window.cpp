@@ -2,14 +2,15 @@
 #include "Window.hpp"
 #include "Engine.hpp"
 
-void Window::Initialize(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
+Window::Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
+	:
+	m_hInstance(hInstance),
+	m_width(width),
+	m_height(height),
+	m_window_title(window_title),
+	m_window_class(window_class)
 {
-	m_hInstance = hInstance;
-	m_width = width;
-	m_height = height;
-	m_window_title = window_title;
 	m_window_title_wide = StringConverter::to_wstring(m_window_title);
-	m_window_class = window_class;
 	m_window_class_wide = StringConverter::to_wstring(m_window_class);
 
 	registerWindowClass();
@@ -117,14 +118,19 @@ void Window::registerWindowClass()
 	wc.lpfnWndProc = WindowProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hInstance = this->m_hInstance;
+	wc.hInstance = m_hInstance;
 	wc.hIcon = NULL;
 	wc.hIconSm = NULL;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = NULL;
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = this->m_window_class_wide.c_str();
+	wc.lpszClassName = m_window_class_wide.c_str();
 	wc.cbSize = sizeof(WNDCLASSEX);
 
-	RegisterClassEx(&wc);
+	HRESULT hr = RegisterClassEx(&wc);
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Failed to register window class");
+		exit(EXIT_FAILURE);
+	}
 }

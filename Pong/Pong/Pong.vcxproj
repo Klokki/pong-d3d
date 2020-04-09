@@ -122,6 +122,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;DXGI.lib;d3dcompiler.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,7 +167,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\Graphics\D3DObject.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="src\Input\Keyboard.cpp" />
@@ -181,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.hpp" />
-    <ClInclude Include="src\Graphics\D3DObject.hpp" />
     <ClInclude Include="src\Graphics\Renderer.hpp" />
     <ClInclude Include="src\Graphics\Shader\Shader.hpp" />
     <ClInclude Include="src\Graphics\Vertex.hpp" />

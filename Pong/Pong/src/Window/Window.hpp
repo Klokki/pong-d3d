@@ -8,7 +8,7 @@ class Engine;
 class Window
 {
 public:
-	void Initialize(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
+	Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
 	bool ProcessMessages();
 	HWND GetHWND() const { return m_handle; }
 	~Window();

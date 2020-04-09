@@ -2,9 +2,10 @@
 #include "Engine.hpp"
 
 Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
+	:
+	m_window(this, hInstance, window_title, window_class, width, height),
+	m_renderer(m_window.GetHWND(), width, height)
 {
-	m_window.Initialize(this, hInstance, window_title, window_class, width, height);
-	m_renderer.Initialize(m_window.GetHWND(), width, height);
 }
 
 void Engine::Update()
