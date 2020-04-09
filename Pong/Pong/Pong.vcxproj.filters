@@ -80,5 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\Vertex.hlsl" />
+    <FxCompile Include="shaders\Pixel.hlsl" />
   </ItemGroup>
 </Project>

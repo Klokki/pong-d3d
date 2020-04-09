@@ -28,13 +28,15 @@ public:
 
 private:
 	static std::vector<AdapterData> getAdapters();
+	static std::wstring getOutputPath();
 
 	static Microsoft::WRL::ComPtr<ID3D11Device> m_device;
 	static Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_deviceContext;
 	static Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapchain;
 	static Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
 
-	static VertexShader m_vertexShader;
-
 	static std::vector<AdapterData> m_adapters;
+
+	static VertexShader m_vertexShader;
+	static PixelShader m_pixelShader;
 };

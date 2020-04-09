@@ -7,6 +7,7 @@ Microsoft::WRL::ComPtr<IDXGISwapChain> D3DObject::m_swapchain;
 Microsoft::WRL::ComPtr<ID3D11RenderTargetView> D3DObject::m_renderTargetView;
 
 VertexShader D3DObject::m_vertexShader;
+PixelShader D3DObject::m_pixelShader;
 
 std::vector<AdapterData> D3DObject::m_adapters;
 
@@ -79,6 +80,18 @@ void D3DObject::InitializeD3D(HWND hwnd, int width, int height)
 		exit(EXIT_FAILURE);
 	}
 
+	// rasterizer (viewport)
+	D3D11_VIEWPORT viewport;
+	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.Width = (FLOAT)width;
+	viewport.Height = (FLOAT)height;
+
+	m_deviceContext->RSSetViewports(1, &viewport);
+
+	// Output merger
 	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), NULL);
 }
 
@@ -92,11 +105,11 @@ void D3DObject::InitializeShaders()
 
 	UINT numElements = ARRAYSIZE(layout);
 
-	// get output directory file path
-	WCHAR path[MAX_PATH];
-	GetModuleFileNameW(NULL, path, MAX_PATH);
-	PathCchRemoveFileSpec(path, sizeof(path));
-	m_vertexShader.Initialize(m_device, (std::wstring)path + L"\\Vertex.cso", layout, numElements);
+	std::wstring outputPath = getOutputPath();
+
+	// init shaders
+	m_vertexShader.Initialize(m_device, outputPath + L"\\Vertex.cso", layout, numElements);
+	m_pixelShader.Initialize(m_device, outputPath + L"\\Pixel.cso");
 }
 
 std::vector<AdapterData> D3DObject::getAdapters()
@@ -126,6 +139,15 @@ std::vector<AdapterData> D3DObject::getAdapters()
 	}
 
 	return m_adapters;
+}
+
+std::wstring D3DObject::getOutputPath()
+{
+	// returns output directory
+	WCHAR path[MAX_PATH];
+	GetModuleFileNameW(NULL, path, MAX_PATH);
+	PathCchRemoveFileSpec(path, sizeof(path));
+	return (std::wstring)path;
 }
 
 AdapterData::AdapterData(IDXGIAdapter* adapter)
