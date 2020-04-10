@@ -31,6 +31,33 @@ void Renderer::Render()
 	m_swapchain->Present(1, NULL);
 }
 
+void Renderer::ToggleFillMode()
+{
+	// toggle rasterizer fill mode
+	if (m_rasterizerDescription.FillMode == D3D11_FILL_MODE::D3D11_FILL_SOLID)
+	{
+		ZeroMemory(&m_rasterizerDescription, sizeof(D3D11_RASTERIZER_DESC));
+		m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
+	}
+	else
+	{
+		ZeroMemory(&m_rasterizerDescription, sizeof(D3D11_RASTERIZER_DESC));
+		m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+	}
+
+	m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+
+	HRESULT hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Could not switch rasterizer state");
+		exit(EXIT_FAILURE);
+	}
+
+	m_deviceContext->RSSetState(m_rasterizerState.Get());
+}
+
 void Renderer::initializeD3D(HWND hwnd, int width, int height)
 {
 	std::vector<AdapterData> adapters = getAdapters();
@@ -100,6 +127,9 @@ void Renderer::initializeD3D(HWND hwnd, int width, int height)
 		exit(EXIT_FAILURE);
 	}
 
+	// Output merger
+	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), NULL);
+
 	// rasterizer (viewport)
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
@@ -111,8 +141,20 @@ void Renderer::initializeD3D(HWND hwnd, int width, int height)
 
 	m_deviceContext->RSSetViewports(1, &viewport);
 
-	// Output merger
-	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), NULL);
+	// rasterizer state
+	ZeroMemory(&m_rasterizerDescription, sizeof(D3D11_RASTERIZER_DESC));
+
+	m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+	m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+	hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Failed to create rasterizer state");
+		exit(EXIT_FAILURE);
+	}
+
+	m_deviceContext->RSSetState(m_rasterizerState.Get());
 }
 
 void Renderer::initializeShaders()

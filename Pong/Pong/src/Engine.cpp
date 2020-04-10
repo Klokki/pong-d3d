@@ -18,6 +18,9 @@ void Engine::Update()
 		// close window on ESC
 		if (keycode == VK_ESCAPE)
 			PostMessage(m_window.GetHWND(), WM_CLOSE, NULL, NULL);
+
+		if (keycode == VK_F1 && e.KeyUp() != true)
+			m_renderer.ToggleFillMode();
 	}
 }
 
