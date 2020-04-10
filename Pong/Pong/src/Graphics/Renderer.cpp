@@ -15,15 +15,12 @@ void Renderer::Render(DirectX::XMFLOAT2 position)
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
 
 	// update constant buffer
-	CB_VS data;
-	data.xOffset = position.x;
-	data.yOffset = position.y;
+	CB_VS data = { position.x, position.y };
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	m_deviceContext->Map(m_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
 	CopyMemory(mappedResource.pData, &data, sizeof(CB_VS));
 	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
-	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
 
 	m_deviceContext->Draw(3, 0);
 
@@ -239,6 +236,8 @@ void Renderer::initializeRenderData()
 		Error::Message(hr, "Failed to create constant buffer");
 		exit(EXIT_FAILURE);
 	}
+
+	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
 }
 
 std::wstring Renderer::getOutputPath()
