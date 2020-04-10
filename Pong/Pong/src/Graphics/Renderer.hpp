@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CBufferLayout.hpp"
 #include "Shader/Shader.hpp"
 #include "Adapter/Adapter.hpp"
 
@@ -9,12 +10,12 @@
 class Renderer {
 public:
 	Renderer(HWND hwnd, int width, int height);
-	void Render();
+	void Render(DirectX::XMFLOAT2 position);
 	void ToggleFillMode();
 private:
 	void initializeD3D(HWND hwnd, int width, int height);
 	void initializeShaders();
-	void initializeScene();
+	void initializeRenderData();
 
 	std::wstring getOutputPath();
 
@@ -24,6 +25,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rasterizerState;
 
 	std::vector<AdapterData> m_adapters;

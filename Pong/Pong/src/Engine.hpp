@@ -3,6 +3,7 @@
 #include "Window/Window.hpp"
 #include "Input/Keyboard.hpp"
 #include "Graphics/Renderer.hpp"
+#include "Game/Game.hpp"
 
 class Engine
 {
@@ -22,5 +23,5 @@ private:
 	Window m_window;
 	Keyboard m_keyboard;
 	Renderer m_renderer;
-	//Renderer m_renderer;
+	Game m_game;
 };

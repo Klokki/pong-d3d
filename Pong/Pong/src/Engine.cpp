@@ -4,7 +4,8 @@
 Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 	:
 	m_window(this, hInstance, window_title, window_class, width, height),
-	m_renderer(m_window.GetHWND(), width, height)
+	m_renderer(m_window.GetHWND(), width, height),
+	m_game(width, height)
 {
 }
 
@@ -22,11 +23,13 @@ void Engine::Update()
 		if (keycode == VK_F1 && e.KeyUp() != true)
 			m_renderer.ToggleFillMode();
 	}
+
+	m_game.Update();
 }
 
 void Engine::Render()
 {
-	m_renderer.Render();
+	m_game.Render(m_renderer);
 }
 
 LRESULT Engine::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

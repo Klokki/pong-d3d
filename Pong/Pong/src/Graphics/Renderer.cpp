@@ -6,13 +6,24 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 {
 	initializeD3D(hwnd, width, height);
 	initializeShaders();
-	initializeScene();
+	initializeRenderData();
 }
 
-void Renderer::Render()
+void Renderer::Render(DirectX::XMFLOAT2 position)
 {
 	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
+
+	// update constant buffer
+	CB_VS data;
+	data.xOffset = position.x;
+	data.yOffset = position.y;
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	m_deviceContext->Map(m_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	CopyMemory(mappedResource.pData, &data, sizeof(CB_VS));
+	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
+	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
 
 	m_deviceContext->Draw(3, 0);
 
@@ -171,7 +182,7 @@ void Renderer::initializeShaders()
 	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
 }
 
-void Renderer::initializeScene()
+void Renderer::initializeRenderData()
 {
 	Vertex v[] =
 	{
@@ -212,6 +223,22 @@ void Renderer::initializeScene()
 	m_deviceContext->IASetVertexBuffers(0, 1,
 		m_vertexBuffer.GetAddressOf(),
 		&stride, &offset);
+
+	// constant buffer
+	D3D11_BUFFER_DESC cBufferDescription;
+	cBufferDescription.Usage = D3D11_USAGE_DYNAMIC;
+	cBufferDescription.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cBufferDescription.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cBufferDescription.MiscFlags = 0;
+	cBufferDescription.ByteWidth = static_cast<UINT>(sizeof(CB_VS) + (16 - (sizeof(CB_VS) % 16)));
+	cBufferDescription.StructureByteStride = 0;
+
+	hr = m_device->CreateBuffer(&cBufferDescription, 0, m_constantBuffer.GetAddressOf());
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Failed to create constant buffer");
+		exit(EXIT_FAILURE);
+	}
 }
 
 std::wstring Renderer::getOutputPath()

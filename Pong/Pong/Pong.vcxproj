@@ -170,6 +170,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Game\Game.cpp" />
+    <ClCompile Include="src\Game\GameObject.cpp" />
     <ClCompile Include="src\Graphics\Adapter\Adapter.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader\Shader.cpp" />
@@ -185,7 +187,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.hpp" />
+    <ClInclude Include="src\Game\Game.hpp" />
+    <ClInclude Include="src\Game\GameObject.hpp" />
     <ClInclude Include="src\Graphics\Adapter\Adapter.hpp" />
+    <ClInclude Include="src\Graphics\CBufferLayout.hpp" />
     <ClInclude Include="src\Graphics\Renderer.hpp" />
     <ClInclude Include="src\Graphics\Shader\Shader.hpp" />
     <ClInclude Include="src\Graphics\Vertex.hpp" />
