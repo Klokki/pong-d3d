@@ -27,7 +27,7 @@ void Renderer::Render(DirectX::XMFLOAT2 position)
 
 	m_deviceContext->DrawIndexed(6, 0, 0);
 
-	m_swapchain->Present(1, NULL);
+	m_swapchain->Present(0, NULL);
 }
 
 void Renderer::ToggleFillMode()
