@@ -9,6 +9,28 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	initializeScene();
 }
 
+void Renderer::Render()
+{
+	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
+
+	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
+	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
+	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
+
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	m_deviceContext->IASetVertexBuffers(0, 1,
+		m_vertexBuffer.GetAddressOf(),
+		&stride, &offset);
+
+	m_deviceContext->Draw(3, 0);
+
+	m_swapchain->Present(1, NULL);
+}
+
 void Renderer::initializeD3D(HWND hwnd, int width, int height)
 {
 	std::vector<AdapterData> adapters = getAdapters();
@@ -98,7 +120,9 @@ void Renderer::initializeShaders()
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, 0,
-		D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0}
+		D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT,
+		D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0  }
 	};
 
 	UINT numElements = ARRAYSIZE(layout);
@@ -114,9 +138,9 @@ void Renderer::initializeScene()
 {
 	Vertex v[] =
 	{
-		Vertex(0.0f, -0.1f),
-		Vertex(-0.1f, 0.0f),
-		Vertex(0.1f, 0.0f),
+		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 0.0f),
+		Vertex(0.0f, 0.5f, 0.0f, 1.0f, 0.0f),
+		Vertex(0.5f, -0.5f, 0.0f, 0.0f, 1.0f),
 	};
 
 	UINT vertexSize = sizeof(Vertex); // avoid warning C6260 (sizeof * sizeof)
@@ -144,28 +168,6 @@ void Renderer::initializeScene()
 		Error::Message(hr, "Failed to create vertex buffer");
 		exit(EXIT_FAILURE);
 	}
-}
-
-void Renderer::Render()
-{
-	float bgcolor[] = { 0.0f, 0.0f, 1.0f, 1.0f };
-	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
-
-	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
-	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
-	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
-
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	m_deviceContext->IASetVertexBuffers(0, 1,
-		m_vertexBuffer.GetAddressOf(),
-		&stride, &offset);
-
-	m_deviceContext->Draw(3, 0);
-
-	m_swapchain->Present(1, NULL);
 }
 
 std::vector<AdapterData> Renderer::getAdapters()
