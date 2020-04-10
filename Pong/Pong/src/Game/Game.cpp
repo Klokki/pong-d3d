@@ -7,9 +7,9 @@ Game::Game(int width, int height)
 {
 }
 
-void Game::Update()
+void Game::Update(unsigned char keycode)
 {
-	m_testObject.Update();
+	m_testObject.Update(keycode);
 }
 
 void Game::Render(Renderer& renderer)

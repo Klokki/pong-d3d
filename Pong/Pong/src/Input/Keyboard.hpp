@@ -17,7 +17,7 @@ public:
 	void SetAutoRepeat(bool value) { m_autoRepeat = value; }
 	bool IsAutoRepeat() const { return m_autoRepeat; }
 private:
-	bool m_autoRepeat = false;
+	bool m_autoRepeat = true;
 	bool m_keys[256] = { false }; // initialize all keys to false
 	std::queue<KeyboardEvent> m_keyBuffer;
 };

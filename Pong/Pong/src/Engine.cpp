@@ -11,10 +11,12 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 
 void Engine::Update()
 {
+	unsigned char keycode = NULL;
+
 	while (!m_keyboard.KeyBufferEmpty())
 	{
 		KeyboardEvent e = m_keyboard.ReadBuffer();
-		unsigned char keycode = e.GetKeyCode();
+		keycode = e.GetKeyCode();
 
 		// close window on ESC
 		if (keycode == VK_ESCAPE)
@@ -24,7 +26,7 @@ void Engine::Update()
 			m_renderer.ToggleFillMode();
 	}
 
-	m_game.Update();
+	m_game.Update(keycode);
 }
 
 void Engine::Render()

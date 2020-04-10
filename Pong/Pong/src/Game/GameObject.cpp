@@ -3,5 +3,5 @@
 
 GameObject::GameObject()
 {
-	m_position = { 0.0f, -1.0f };
+	m_position = { 0.0f, -0.5f };
 }
