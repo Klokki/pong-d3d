@@ -15,7 +15,10 @@ void Renderer::Render(DirectX::XMFLOAT2 position)
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
 
 	// update constant buffer
-	CB_VS data = { position.x, position.y };
+	CB_VS data;
+	data.mat = DirectX::XMMatrixTranslation(position.x, -0.5f, 0.0f);
+	data.mat = DirectX::XMMatrixTranspose(data.mat);
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 
 	m_deviceContext->Map(m_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -264,11 +267,11 @@ void Renderer::initializeRenderData()
 	// set input layout and shaders to context
 	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
 	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_deviceContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 
 	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
 	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
 	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
-	m_deviceContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
 
 std::wstring Renderer::getOutputPath()
