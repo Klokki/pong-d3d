@@ -3,8 +3,10 @@
 #include "Vertex.hpp"
 
 Renderer::Renderer(HWND hwnd, int width, int height)
+	:
+	m_width(width), m_height(height)
 {
-	initializeD3D(hwnd, width, height);
+	initializeD3D(hwnd);
 	initializeShaders();
 	initializeRenderData();
 }
@@ -57,7 +59,7 @@ void Renderer::ToggleFillMode()
 	m_deviceContext->RSSetState(m_rasterizerState.Get());
 }
 
-void Renderer::initializeD3D(HWND hwnd, int width, int height)
+void Renderer::initializeD3D(HWND hwnd)
 {
 	std::vector<AdapterData> adapters = Adapters::Get();
 
@@ -70,8 +72,8 @@ void Renderer::initializeD3D(HWND hwnd, int width, int height)
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-	swapChainDesc.BufferDesc.Width = width;
-	swapChainDesc.BufferDesc.Height = height;
+	swapChainDesc.BufferDesc.Width = m_width;
+	swapChainDesc.BufferDesc.Height = m_height;
 	swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -135,8 +137,8 @@ void Renderer::initializeD3D(HWND hwnd, int width, int height)
 
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = (FLOAT)width;
-	viewport.Height = (FLOAT)height;
+	viewport.Width = (FLOAT)m_width;
+	viewport.Height = (FLOAT)m_height;
 
 	m_deviceContext->RSSetViewports(1, &viewport);
 

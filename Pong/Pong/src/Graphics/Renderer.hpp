@@ -13,11 +13,13 @@ public:
 	void Render(DirectX::XMFLOAT2 position);
 	void ToggleFillMode();
 private:
-	void initializeD3D(HWND hwnd, int width, int height);
+	void initializeD3D(HWND hwnd);
 	void initializeShaders();
 	void initializeRenderData();
 
 	std::wstring getOutputPath();
+
+	int m_width, m_height;
 
 	Microsoft::WRL::ComPtr<ID3D11Device> m_device;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_deviceContext;
