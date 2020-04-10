@@ -16,7 +16,7 @@ void Renderer::Render(DirectX::XMFLOAT2 position)
 
 	// update constant buffer
 	CB_VS data;
-	data.mat = DirectX::XMMatrixTranslation(position.x, -0.5f, 0.0f);
+	data.mat = DirectX::XMMatrixTranslation(position.x, position.y, 0.0f);
 	data.mat = DirectX::XMMatrixTranspose(data.mat);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
