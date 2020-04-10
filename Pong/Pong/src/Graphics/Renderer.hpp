@@ -1,21 +1,10 @@
 #pragma once
 
 #include "Shader/Shader.hpp"
+#include "Adapter/Adapter.hpp"
 
-// D3DObject.hpp
-// Contains D3D objects like the D3D11Device and context
-// Also has information about the adapters in the system
-
-class AdapterData
-{
-	friend class Renderer;
-public:
-	IDXGIAdapter* GetAdapter() const { return p_adapter; }
-protected:
-	AdapterData(IDXGIAdapter* adapter);
-	IDXGIAdapter* p_adapter = nullptr;
-	DXGI_ADAPTER_DESC m_description;
-};
+// Renderer.hpp
+// Contains D3D objects like the D3D11Device and context, and renders to screen
 
 class Renderer {
 public:
@@ -27,7 +16,6 @@ private:
 	void initializeShaders();
 	void initializeScene();
 
-	std::vector<AdapterData> getAdapters();
 	std::wstring getOutputPath();
 
 	Microsoft::WRL::ComPtr<ID3D11Device> m_device;

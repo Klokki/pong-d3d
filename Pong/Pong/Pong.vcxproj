@@ -170,6 +170,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Graphics\Adapter\Adapter.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="src\Input\Keyboard.cpp" />
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.hpp" />
+    <ClInclude Include="src\Graphics\Adapter\Adapter.hpp" />
     <ClInclude Include="src\Graphics\Renderer.hpp" />
     <ClInclude Include="src\Graphics\Shader\Shader.hpp" />
     <ClInclude Include="src\Graphics\Vertex.hpp" />
