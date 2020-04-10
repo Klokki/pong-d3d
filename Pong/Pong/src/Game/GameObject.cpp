@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "GameObject.hpp"
 
-GameObject::GameObject()
+GameObject::GameObject(DirectX::XMFLOAT2 position)
+	:
+	m_position(position)
 {
-	m_position = { 0.0f, -0.5f };
 }

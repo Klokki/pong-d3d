@@ -26,6 +26,8 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
+
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rasterizerState;
 
 	std::vector<AdapterData> m_adapters;

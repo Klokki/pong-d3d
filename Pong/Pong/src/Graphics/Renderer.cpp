@@ -17,12 +17,12 @@ void Renderer::Render(DirectX::XMFLOAT2 position)
 	// update constant buffer
 	CB_VS data = { position.x, position.y };
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	m_deviceContext->Map(m_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
+	m_deviceContext->Map(m_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	CopyMemory(mappedResource.pData, &data, sizeof(CB_VS));
 	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
 
-	m_deviceContext->Draw(6, 0);
+	m_deviceContext->DrawIndexed(6, 0, 0);
 
 	m_swapchain->Present(1, NULL);
 }
@@ -170,26 +170,22 @@ void Renderer::initializeShaders()
 	// init shaders
 	m_vertexShader.Initialize(m_device, outputPath + L"\\Vertex.cso", layout, numElements);
 	m_pixelShader.Initialize(m_device, outputPath + L"\\Pixel.cso");
-
-	// set input layout and shaders to context
-	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
-	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
-	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
 }
 
 void Renderer::initializeRenderData()
 {
 	Vertex v[] =
 	{
-		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), //Bottom Left
-		Vertex(-0.5f, 0.5f, 1.0f, 0.0f, 0.0f), //Top Left
-		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 0.0f), //Top Right
+		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), // Bottom left
+		Vertex(-0.5f, 0.5f, 1.0f, 0.0f, 0.0f), // Top left
+		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 0.0f), // Top right
+		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f), // Bottom right
+	};
 
-		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), //Bottom Left
-		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 0.0f), //Top Right
-		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f), //Bottom Right
+	DWORD indices[] =
+	{
+		0, 1, 2,
+		0, 2, 3
 	};
 
 	UINT vertexSize = sizeof(Vertex); // avoid warning C6260 (sizeof * sizeof)
@@ -225,6 +221,30 @@ void Renderer::initializeRenderData()
 		m_vertexBuffer.GetAddressOf(),
 		&stride, &offset);
 
+	// index buffer
+	D3D11_BUFFER_DESC indexBufferDescription;
+	ZeroMemory(&indexBufferDescription, sizeof(D3D11_BUFFER_DESC));
+
+	int dwordSize = sizeof(DWORD); // avoid warning C6260 (sizeof * sizeof)
+
+	indexBufferDescription.Usage = D3D11_USAGE_DEFAULT;
+	indexBufferDescription.ByteWidth = dwordSize * ARRAYSIZE(indices);
+	indexBufferDescription.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDescription.CPUAccessFlags = 0;
+	indexBufferDescription.MiscFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA indexBufferData;
+	indexBufferData.pSysMem = indices;
+
+	hr = m_device->CreateBuffer(&indexBufferDescription, &indexBufferData,
+		m_indexBuffer.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Failed to create index buffer");
+		exit(EXIT_FAILURE);
+	}
+
 	// constant buffer
 	D3D11_BUFFER_DESC cBufferDescription;
 	cBufferDescription.Usage = D3D11_USAGE_DYNAMIC;
@@ -241,7 +261,14 @@ void Renderer::initializeRenderData()
 		exit(EXIT_FAILURE);
 	}
 
+	// set input layout and shaders to context
+	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
+	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
+	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
 	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
+	m_deviceContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
 
 std::wstring Renderer::getOutputPath()

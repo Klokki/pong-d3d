@@ -3,7 +3,7 @@
 
 Game::Game(int width, int height)
 	:
-	m_gameWidth(width), m_gameHeight(height)
+	m_gameWidth(width), m_gameHeight(height), m_testObject({0.0f, -0.5f})
 {
 }
 
