@@ -4,5 +4,6 @@
 
 struct CB_VS
 {
-	DirectX::XMMATRIX mat;
+	DirectX::XMMATRIX model;
+	DirectX::XMMATRIX projection;
 };

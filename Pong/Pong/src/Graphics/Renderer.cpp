@@ -11,15 +11,26 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	initializeRenderData();
 }
 
-void Renderer::Render(DirectX::XMFLOAT2 position)
+void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 {
 	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
 
 	// update constant buffer
 	CB_VS data;
-	data.mat = DirectX::XMMatrixTranslation(position.x, position.y, 0.0f);
-	data.mat = DirectX::XMMatrixTranspose(data.mat);
+	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(position.x, position.y, 0.0f);
+	DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationZ(0.0f);
+	DirectX::XMMATRIX scaling = DirectX::XMMatrixScaling(1.0f * size.x, 1.0f * size.y, 1.0f);
+
+	data.model = scaling * rotation * translation;
+	data.model = DirectX::XMMatrixTranspose(data.model);
+
+	DirectX::XMMATRIX projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f,
+		(float)m_width, 0.0f,
+		(float)m_height, 0.0f, 100.0f);
+
+	data.projection = projection;
+	data.projection = DirectX::XMMatrixTranspose(data.projection);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 

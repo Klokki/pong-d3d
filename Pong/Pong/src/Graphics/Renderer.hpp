@@ -10,7 +10,7 @@
 class Renderer {
 public:
 	Renderer(HWND hwnd, int width, int height);
-	void Render(DirectX::XMFLOAT2 position);
+	void Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size);
 	void ToggleFillMode();
 private:
 	void initializeD3D(HWND hwnd);
