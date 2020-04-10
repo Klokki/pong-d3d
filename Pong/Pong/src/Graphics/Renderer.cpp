@@ -22,7 +22,7 @@ void Renderer::Render(DirectX::XMFLOAT2 position)
 	CopyMemory(mappedResource.pData, &data, sizeof(CB_VS));
 	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
 
-	m_deviceContext->Draw(3, 0);
+	m_deviceContext->Draw(6, 0);
 
 	m_swapchain->Present(1, NULL);
 }
@@ -183,9 +183,13 @@ void Renderer::initializeRenderData()
 {
 	Vertex v[] =
 	{
-		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 0.0f),
-		Vertex(0.0f, 0.5f, 0.0f, 1.0f, 0.0f),
-		Vertex(0.5f, -0.5f, 0.0f, 0.0f, 1.0f),
+		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), //Bottom Left
+		Vertex(-0.5f, 0.5f, 1.0f, 0.0f, 0.0f), //Top Left
+		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 0.0f), //Top Right
+
+		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), //Bottom Left
+		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 0.0f), //Top Right
+		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f), //Bottom Right
 	};
 
 	UINT vertexSize = sizeof(Vertex); // avoid warning C6260 (sizeof * sizeof)
