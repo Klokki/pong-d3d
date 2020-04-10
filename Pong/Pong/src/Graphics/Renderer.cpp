@@ -14,18 +14,6 @@ void Renderer::Render()
 	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
 
-	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
-	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
-	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
-
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	m_deviceContext->IASetVertexBuffers(0, 1,
-		m_vertexBuffer.GetAddressOf(),
-		&stride, &offset);
-
 	m_deviceContext->Draw(3, 0);
 
 	m_swapchain->Present(1, NULL);
@@ -174,6 +162,13 @@ void Renderer::initializeShaders()
 	// init shaders
 	m_vertexShader.Initialize(m_device, outputPath + L"\\Vertex.cso", layout, numElements);
 	m_pixelShader.Initialize(m_device, outputPath + L"\\Pixel.cso");
+
+	// set input layout and shaders to context
+	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
+	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
+	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
 }
 
 void Renderer::initializeScene()
@@ -210,6 +205,13 @@ void Renderer::initializeScene()
 		Error::Message(hr, "Failed to create vertex buffer");
 		exit(EXIT_FAILURE);
 	}
+
+	// set vertex buffer to context
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	m_deviceContext->IASetVertexBuffers(0, 1,
+		m_vertexBuffer.GetAddressOf(),
+		&stride, &offset);
 }
 
 std::vector<AdapterData> Renderer::getAdapters()
