@@ -2,6 +2,14 @@
 
 #include "pch.h"
 
+// vertex shader constant buffer
+struct CB_VS
+{
+	DirectX::XMMATRIX move;
+	DirectX::XMMATRIX projection;
+};
+
+// vertex buffer layout
 struct Vertex
 {
 	Vertex(float x, float y, float r, float g, float b)

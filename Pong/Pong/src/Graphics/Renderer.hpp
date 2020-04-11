@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CBufferLayout.hpp"
+#include "Layout.hpp"
 #include "Shader/Shader.hpp"
 #include "Adapter/Adapter.hpp"
 

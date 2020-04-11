@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Renderer.hpp"
-#include "Vertex.hpp"
 
 Renderer::Renderer(HWND hwnd, int width, int height)
 	:

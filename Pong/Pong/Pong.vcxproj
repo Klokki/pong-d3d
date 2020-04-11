@@ -190,10 +190,9 @@
     <ClInclude Include="src\Game\Game.hpp" />
     <ClInclude Include="src\Game\GameObject.hpp" />
     <ClInclude Include="src\Graphics\Adapter\Adapter.hpp" />
-    <ClInclude Include="src\Graphics\CBufferLayout.hpp" />
+    <ClInclude Include="src\Graphics\Layout.hpp" />
     <ClInclude Include="src\Graphics\Renderer.hpp" />
     <ClInclude Include="src\Graphics\Shader\Shader.hpp" />
-    <ClInclude Include="src\Graphics\Vertex.hpp" />
     <ClInclude Include="src\Input\Keyboard.hpp" />
     <ClInclude Include="src\Input\KeyboardEvent.hpp" />
     <ClInclude Include="src\pch.h" />
