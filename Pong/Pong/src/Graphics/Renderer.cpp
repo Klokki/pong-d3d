@@ -22,25 +22,17 @@ void Renderer::BeginRender()
 void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 {
 	// update constant buffer
-	CB_VS data;
 	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(position.x, position.y, 0.0f);
 	DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationZ(0.0f);
 	DirectX::XMMATRIX scaling = DirectX::XMMatrixScaling(1.0f * size.x, 1.0f * size.y, 1.0f);
 
-	data.model = scaling * rotation * translation;
-	data.model = DirectX::XMMatrixTranspose(data.model);
-
-	DirectX::XMMATRIX projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f,
-		(float)m_width, 0.0f,
-		(float)m_height, 0.0f, 100.0f);
-
-	data.projection = projection;
-	data.projection = DirectX::XMMatrixTranspose(data.projection);
+	m_constantBufferData.model = scaling * rotation * translation;
+	m_constantBufferData.model = DirectX::XMMatrixTranspose(m_constantBufferData.model);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 
 	m_deviceContext->Map(m_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	CopyMemory(mappedResource.pData, &data, sizeof(CB_VS));
+	CopyMemory(mappedResource.pData, &m_constantBufferData, sizeof(CB_VS));
 	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
 
 	m_deviceContext->DrawIndexed(6, 0, 0);
@@ -228,7 +220,7 @@ void Renderer::initializeRenderData()
 		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), // Bottom left
 		Vertex(-0.5f, 0.5f, 1.0f, 0.0f, 0.0f), // Top left
 		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 0.0f), // Top right
-		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f), // Bottom right
+		Vertex(0.5f, -0.5f, 0.0f, 0.0f, 1.0f), // Bottom right
 	};
 
 	DWORD indices[] =
@@ -302,6 +294,14 @@ void Renderer::initializeRenderData()
 		Error::Message(hr, "Failed to create constant buffer");
 		exit(EXIT_FAILURE);
 	}
+
+	// set orthographic projection
+	DirectX::XMMATRIX projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f,
+		(float)m_width, 0.0f,
+		(float)m_height, 0.0f, 100.0f);
+
+	m_constantBufferData.projection = projection;
+	m_constantBufferData.projection = DirectX::XMMatrixTranspose(m_constantBufferData.projection);
 
 	// set input layout and shaders to context
 	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());

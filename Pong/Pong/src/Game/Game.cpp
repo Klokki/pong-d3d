@@ -4,9 +4,9 @@
 Game::Game(int width, int height)
 	:
 	m_gameWidth(width), m_gameHeight(height),
-	m_testObject({(float)width / 2, 0.0f},
+	m_testObject({(float)width / 2, 50.0f},
 		{100.0f, 50.0f}),
-	m_testObject2({ (float)width / 2, (float)height },
+	m_testObject2({ (float)width / 2, (float)height - 50.0f },
 		{ 100.0f, 50.0f })
 {
 }

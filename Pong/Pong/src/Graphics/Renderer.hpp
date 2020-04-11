@@ -41,6 +41,7 @@ private:
 
 	VertexShader m_vertexShader;
 	PixelShader m_pixelShader;
+	CB_VS m_constantBufferData;
 
 	D3D11_RASTERIZER_DESC m_rasterizerDescription;
 };
