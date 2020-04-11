@@ -11,11 +11,16 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	initializeRenderData();
 }
 
-void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
+void Renderer::BeginRender()
 {
 	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
+	m_deviceContext->ClearDepthStencilView(m_depthStencilView.Get(),
+		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
 
+void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
+{
 	// update constant buffer
 	CB_VS data;
 	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(position.x, position.y, 0.0f);
@@ -39,7 +44,10 @@ void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
 
 	m_deviceContext->DrawIndexed(6, 0, 0);
+}
 
+void Renderer::EndRender()
+{
 	m_swapchain->Present(0, NULL);
 }
 
@@ -139,8 +147,31 @@ void Renderer::initializeD3D(HWND hwnd)
 		exit(EXIT_FAILURE);
 	}
 
+	D3D11_TEXTURE2D_DESC depthStencilDescription;
+	depthStencilDescription.Width = m_width;
+	depthStencilDescription.Height = m_height;
+	depthStencilDescription.MipLevels = 1;
+	depthStencilDescription.ArraySize = 1;
+	depthStencilDescription.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilDescription.SampleDesc.Count = 1;
+	depthStencilDescription.SampleDesc.Quality = 0;
+	depthStencilDescription.Usage = D3D11_USAGE_DEFAULT;
+	depthStencilDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthStencilDescription.CPUAccessFlags = 0;
+	depthStencilDescription.MiscFlags = 0;
+
+	hr = m_device->CreateTexture2D(&depthStencilDescription, NULL, m_depthStencilBuffer.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Failed to create depth stencil buffer");
+		exit(EXIT_FAILURE);
+	}
+
+	hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), NULL, m_depthStencilView.GetAddressOf());
+
 	// Output merger
-	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), NULL);
+	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
 
 	// rasterizer (viewport)
 	D3D11_VIEWPORT viewport;
@@ -150,6 +181,8 @@ void Renderer::initializeD3D(HWND hwnd)
 	viewport.TopLeftY = 0;
 	viewport.Width = (FLOAT)m_width;
 	viewport.Height = (FLOAT)m_height;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
 
 	m_deviceContext->RSSetViewports(1, &viewport);
 
@@ -230,13 +263,6 @@ void Renderer::initializeRenderData()
 		exit(EXIT_FAILURE);
 	}
 
-	// set vertex buffer to context
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	m_deviceContext->IASetVertexBuffers(0, 1,
-		m_vertexBuffer.GetAddressOf(),
-		&stride, &offset);
-
 	// index buffer
 	D3D11_BUFFER_DESC indexBufferDescription;
 	ZeroMemory(&indexBufferDescription, sizeof(D3D11_BUFFER_DESC));
@@ -281,6 +307,13 @@ void Renderer::initializeRenderData()
 	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
 	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_deviceContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+
+	// set vertex buffer to context
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	m_deviceContext->IASetVertexBuffers(0, 1,
+		m_vertexBuffer.GetAddressOf(),
+		&stride, &offset);
 
 	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
 	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);

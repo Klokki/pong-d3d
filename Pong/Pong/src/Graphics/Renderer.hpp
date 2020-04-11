@@ -10,7 +10,9 @@
 class Renderer {
 public:
 	Renderer(HWND hwnd, int width, int height);
+	void BeginRender();
 	void Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size);
+	void EndRender();
 	void ToggleFillMode();
 private:
 	void initializeD3D(HWND hwnd);
@@ -29,6 +31,9 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
+
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> m_depthStencilBuffer;
 
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rasterizerState;
 

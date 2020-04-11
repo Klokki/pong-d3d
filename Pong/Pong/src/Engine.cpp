@@ -31,7 +31,9 @@ void Engine::Update()
 
 void Engine::Render()
 {
+	m_renderer.BeginRender();
 	m_game.Render(m_renderer);
+	m_renderer.EndRender();
 }
 
 LRESULT Engine::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

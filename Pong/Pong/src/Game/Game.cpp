@@ -4,8 +4,10 @@
 Game::Game(int width, int height)
 	:
 	m_gameWidth(width), m_gameHeight(height),
-	m_testObject({(float)width / 2, (float)height / 2},
-		{100.0f, 50.0f})
+	m_testObject({(float)width / 2, 0.0f},
+		{100.0f, 50.0f}),
+	m_testObject2({ (float)width / 2, (float)height },
+		{ 100.0f, 50.0f })
 {
 }
 
@@ -17,4 +19,5 @@ void Game::Update(unsigned char keycode)
 void Game::Render(Renderer& renderer)
 {
 	m_testObject.Draw(renderer);
+	m_testObject2.Draw(renderer);
 }
