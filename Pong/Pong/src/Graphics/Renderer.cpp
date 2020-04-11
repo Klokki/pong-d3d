@@ -26,8 +26,8 @@ void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 	DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationZ(0.0f);
 	DirectX::XMMATRIX scaling = DirectX::XMMatrixScaling(1.0f * size.x, 1.0f * size.y, 1.0f);
 
-	m_constantBufferData.model = scaling * rotation * translation;
-	m_constantBufferData.model = DirectX::XMMatrixTranspose(m_constantBufferData.model);
+	m_constantBufferData.move = scaling * rotation * translation;
+	m_constantBufferData.move = DirectX::XMMatrixTranspose(m_constantBufferData.move);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 

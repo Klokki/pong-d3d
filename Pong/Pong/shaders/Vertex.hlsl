@@ -1,6 +1,6 @@
 cbuffer positionCBuffer : register(b0)
 {
-    float4x4 model;
+    float4x4 move;
     float4x4 projection;
 }
 
@@ -20,7 +20,7 @@ VS_OUTPUT main(VS_INPUT input)
 {
     VS_OUTPUT output;
 
-    output.outPosition = mul(float4(input.inPos, 0.0f, 1.0f), mul(model, projection));
+    output.outPosition = mul(float4(input.inPos, 0.0f, 1.0f), mul(move, projection));
     output.outColor = input.inColor;
     return output;
 }
