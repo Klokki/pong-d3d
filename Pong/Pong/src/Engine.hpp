@@ -4,6 +4,7 @@
 #include "Input/Keyboard.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Game/Game.hpp"
+#include "Audio/AudioEngine.hpp"
 
 class Engine
 {
@@ -22,5 +23,6 @@ private:
 	Window m_window;
 	Keyboard m_keyboard;
 	Renderer m_renderer;
+	AudioEngine m_audio;
 	Game m_game;
 };

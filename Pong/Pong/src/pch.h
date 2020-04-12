@@ -2,6 +2,7 @@
 
 // WINDOWS INCLUDES
 #define WIN32_LEAN_AND_MEAN
+#include <xaudio2.h> // include xaudio2 first so no problems from windows.h
 #include <Windows.h>
 #include <comdef.h>
 #include <pathcch.h>

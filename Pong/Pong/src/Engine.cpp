@@ -5,7 +5,8 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 	:
 	m_window(this, hInstance, window_title, window_class, width, height),
 	m_renderer(m_window.GetHWND(), width, height),
-	m_game(width, height)
+	m_game(width, height),
+	m_audio()
 {
 }
 
