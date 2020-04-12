@@ -13,7 +13,10 @@ Game::Game(int width, int height)
 
 void Game::Update(unsigned char keycode, float delta)
 {
-	m_testObject.Update(keycode, delta);
+	if (keycode == 0x41 || keycode == 0x44)
+		m_testObject.Update(keycode, delta);
+	else if (keycode == VK_LEFT || keycode == VK_RIGHT)
+		m_testObject2.Update(keycode, delta);
 }
 
 void Game::Render(Renderer& renderer)
