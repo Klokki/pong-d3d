@@ -39,10 +39,7 @@ Window::Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::
 	);
 
 	if (m_handle == NULL)
-	{
 		Error::Message(GetLastError(), "CreateWindowEX failed for window " + m_window_title);
-		exit(EXIT_FAILURE);
-	}
 
 	// show and set window as foreground
 	ShowWindow(m_handle, SW_SHOW);
@@ -115,10 +112,7 @@ void Window::registerWindowClass()
 	wc.lpszClassName = m_window_class_wide.c_str();
 	wc.cbSize = sizeof(WNDCLASSEX);
 
-	HRESULT hr = RegisterClassEx(&wc);
-	if (FAILED(hr))
-	{
+	HRESULT hr;
+	if (FAILED(hr = RegisterClassEx(&wc)))
 		Error::Message(hr, "Failed to register window class");
-		exit(EXIT_FAILURE);
-	}
 }

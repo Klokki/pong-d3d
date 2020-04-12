@@ -44,6 +44,8 @@ void Renderer::EndRender(bool vsync)
 
 void Renderer::ToggleFillMode()
 {
+	HRESULT hr;
+
 	// toggle rasterizer fill mode
 	if (m_rasterizerDescription.FillMode == D3D11_FILL_MODE::D3D11_FILL_SOLID)
 	{
@@ -58,12 +60,10 @@ void Renderer::ToggleFillMode()
 
 	m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
 
-	HRESULT hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf());
-
-	if (FAILED(hr))
+	if (FAILED(hr = m_device->CreateRasterizerState(&m_rasterizerDescription,
+		m_rasterizerState.GetAddressOf())))
 	{
 		Error::Message(hr, "Could not switch rasterizer state");
-		exit(EXIT_FAILURE);
 	}
 
 	m_deviceContext->RSSetState(m_rasterizerState.Get());
@@ -74,10 +74,7 @@ void Renderer::initializeD3D(HWND hwnd)
 	std::vector<AdapterData> adapters = Adapters::Get();
 
 	if (adapters.size() < 1)
-	{
 		Error::Message("No DXGI adapters found");
-		exit(EXIT_FAILURE);
-	}
 
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -115,27 +112,20 @@ void Renderer::initializeD3D(HWND hwnd)
 		m_deviceContext.GetAddressOf());
 
 	if (FAILED(hr))
-	{
 		Error::Message(hr, "Failed to create device and swapchain");
-		exit(EXIT_FAILURE);
-	}
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> backBuffer;
-	hr = m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-		reinterpret_cast<void**>(backBuffer.GetAddressOf()));
 
-	if (FAILED(hr))
+	if (FAILED(hr = m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+		reinterpret_cast<void**>(backBuffer.GetAddressOf()))))
 	{
 		Error::Message(hr, "GetBuffer failed");
-		exit(EXIT_FAILURE);
 	}
 
-	hr = m_device->CreateRenderTargetView(backBuffer.Get(), NULL, m_renderTargetView.GetAddressOf());
-
-	if (FAILED(hr))
+	if (FAILED(hr = m_device->CreateRenderTargetView(backBuffer.Get(),
+		NULL, m_renderTargetView.GetAddressOf())))
 	{
 		Error::Message(hr, "Failed to create render target view");
-		exit(EXIT_FAILURE);
 	}
 
 	D3D11_TEXTURE2D_DESC depthStencilDescription;
@@ -151,15 +141,17 @@ void Renderer::initializeD3D(HWND hwnd)
 	depthStencilDescription.CPUAccessFlags = 0;
 	depthStencilDescription.MiscFlags = 0;
 
-	hr = m_device->CreateTexture2D(&depthStencilDescription, NULL, m_depthStencilBuffer.GetAddressOf());
-
-	if (FAILED(hr))
+	if (FAILED(hr = m_device->CreateTexture2D(&depthStencilDescription, NULL,
+		m_depthStencilBuffer.GetAddressOf())))
 	{
 		Error::Message(hr, "Failed to create depth stencil buffer");
-		exit(EXIT_FAILURE);
 	}
 
-	hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), NULL, m_depthStencilView.GetAddressOf());
+	if (FAILED(hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), NULL,
+		m_depthStencilView.GetAddressOf())))
+	{
+		Error::Message(hr, "Failed to create depth stencil view");
+	}
 
 	// Output merger
 	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
@@ -182,13 +174,9 @@ void Renderer::initializeD3D(HWND hwnd)
 
 	m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 	m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
-	hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf());
 
-	if (FAILED(hr))
-	{
+	if (FAILED(hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf())))
 		Error::Message(hr, "Failed to create rasterizer state");
-		exit(EXIT_FAILURE);
-	}
 
 	m_deviceContext->RSSetState(m_rasterizerState.Get());
 }
@@ -214,7 +202,7 @@ void Renderer::initializeShaders()
 
 void Renderer::initializeRenderData()
 {
-	Vertex vertices[] =
+	Vertex v[] =
 	{
 		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), // Bottom left
 		Vertex(-0.5f, 0.5f, 1.0f, 0.0f, 0.0f), // Top left
@@ -234,7 +222,7 @@ void Renderer::initializeRenderData()
 	ZeroMemory(&vertexBufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexBufferDesc.ByteWidth = vertexSize * ARRAYSIZE(vertices);
+	vertexBufferDesc.ByteWidth = vertexSize * ARRAYSIZE(v);
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.MiscFlags = 0;
@@ -242,17 +230,12 @@ void Renderer::initializeRenderData()
 	D3D11_SUBRESOURCE_DATA vertexBufferData;
 	ZeroMemory(&vertexBufferData, sizeof(D3D11_SUBRESOURCE_DATA));
 
-	vertexBufferData.pSysMem = vertices;
+	vertexBufferData.pSysMem = v;
 
-	HRESULT hr = m_device->CreateBuffer(&vertexBufferDesc,
-		&vertexBufferData,
-		m_vertexBuffer.GetAddressOf());
+	HRESULT hr;
 
-	if (FAILED(hr))
-	{
+	if (FAILED(hr = m_device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, m_vertexBuffer.GetAddressOf())))
 		Error::Message(hr, "Failed to create vertex buffer");
-		exit(EXIT_FAILURE);
-	}
 
 	// index buffer
 	D3D11_BUFFER_DESC indexBufferDescription;
@@ -269,14 +252,8 @@ void Renderer::initializeRenderData()
 	D3D11_SUBRESOURCE_DATA indexBufferData;
 	indexBufferData.pSysMem = indices;
 
-	hr = m_device->CreateBuffer(&indexBufferDescription, &indexBufferData,
-		m_indexBuffer.GetAddressOf());
-
-	if (FAILED(hr))
-	{
+	if (FAILED(hr = m_device->CreateBuffer(&indexBufferDescription, &indexBufferData, m_indexBuffer.GetAddressOf())))
 		Error::Message(hr, "Failed to create index buffer");
-		exit(EXIT_FAILURE);
-	}
 
 	// constant buffer
 	D3D11_BUFFER_DESC cBufferDescription;
@@ -287,12 +264,8 @@ void Renderer::initializeRenderData()
 	cBufferDescription.ByteWidth = static_cast<UINT>(sizeof(CB_VS) + (16 - (sizeof(CB_VS) % 16)));
 	cBufferDescription.StructureByteStride = 0;
 
-	hr = m_device->CreateBuffer(&cBufferDescription, 0, m_constantBuffer.GetAddressOf());
-	if (FAILED(hr))
-	{
+	if (FAILED(hr = m_device->CreateBuffer(&cBufferDescription, 0, m_constantBuffer.GetAddressOf())))
 		Error::Message(hr, "Failed to create constant buffer");
-		exit(EXIT_FAILURE);
-	}
 
 	// set orthographic projection
 	DirectX::XMMATRIX projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f,
