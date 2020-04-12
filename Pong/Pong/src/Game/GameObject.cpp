@@ -8,10 +8,10 @@ GameObject::GameObject(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 {
 }
 
-void GameObject::Update(unsigned char keycode)
+void GameObject::Update(unsigned char keycode, float delta)
 {
 	if (keycode == 0x41 && m_position.x > m_size.x / 2)
-		m_position.x -= 5.f;
+		m_position.x -= 1.f * delta;
 	if (keycode == 0x44 && m_position.x < 800.f - m_size.x / 2)
-		m_position.x += 5.f;
+		m_position.x += 1.f * delta;
 }

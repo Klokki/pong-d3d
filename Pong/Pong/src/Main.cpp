@@ -9,11 +9,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR /*lpCmdLine*/, // unreferenced parameters (hPrevInstance, lpCmdLine, nCmdShow)
 	_In_ int /*nCmdShow*/)
 {
+	using ms = std::chrono::duration<float, std::milli>;
+
 	Engine engine(hInstance, "Pong", "PongClass1", SCR_WIDTH, SCR_HEIGHT);
+
+	std::chrono::high_resolution_clock timer;
+	auto startTime = timer.now();
 
 	while (engine.ProcessMessages() == true)
 	{
-		engine.Update();
+		auto currentFrame = timer.now();
+		float deltaTime = std::chrono::duration_cast<ms>(currentFrame - startTime).count();
+		startTime = currentFrame;
+
+		engine.Update(deltaTime);
 		engine.Render();
 	}
 

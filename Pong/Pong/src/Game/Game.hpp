@@ -9,7 +9,7 @@ class Game
 {
 public:
 	Game(int width, int height);
-	void Update(unsigned char keycode);
+	void Update(unsigned char keycode, float delta);
 	void Render(Renderer& renderer);
 private:
 	int m_gameWidth, m_gameHeight;

@@ -11,9 +11,9 @@ Game::Game(int width, int height)
 {
 }
 
-void Game::Update(unsigned char keycode)
+void Game::Update(unsigned char keycode, float delta)
 {
-	m_testObject.Update(keycode);
+	m_testObject.Update(keycode, delta);
 }
 
 void Game::Render(Renderer& renderer)

@@ -9,7 +9,7 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 {
 }
 
-void Engine::Update()
+void Engine::Update(float delta)
 {
 	m_keyboard.Update();
 	unsigned char keycode = NULL;
@@ -32,7 +32,7 @@ void Engine::Update()
 			m_vsync = !m_vsync;
 	}
 
-	m_game.Update(keycode);
+	m_game.Update(keycode, delta);
 }
 
 void Engine::Render()

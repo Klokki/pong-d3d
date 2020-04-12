@@ -15,7 +15,7 @@ public:
 		return m_window.ProcessMessages();
 	}
 
-	void Update();
+	void Update(float delta);
 	void Render();
 private:
 	bool m_vsync = true;
