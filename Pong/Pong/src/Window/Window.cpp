@@ -86,28 +86,16 @@ Window::~Window()
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static Engine* p_engine = nullptr;
-
 	switch (uMsg)
 	{
-	case WM_NCCREATE:
-	{
-		CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
-		p_engine = reinterpret_cast<Engine*>(pCreate->lpCreateParams);
-	}break;
-
 	case WM_CLOSE:
 	{
 		DestroyWindow(hwnd);
 		return 0;
 	}
-
-	default:
-		if(!p_engine)
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 
-	return p_engine->WindowProc(hwnd, uMsg, wParam, lParam);
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 void Window::registerWindowClass()

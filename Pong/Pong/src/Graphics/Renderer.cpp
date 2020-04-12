@@ -39,7 +39,7 @@ void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 
 void Renderer::EndRender()
 {
-	m_swapchain->Present(0, NULL);
+	m_swapchain->Present(1, NULL);
 }
 
 void Renderer::ToggleFillMode()

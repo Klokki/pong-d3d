@@ -17,8 +17,6 @@ public:
 
 	void Update();
 	void Render();
-
-	LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 private:
 	Window m_window;
 	Keyboard m_keyboard;

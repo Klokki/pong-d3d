@@ -27,7 +27,6 @@ public:
 
 	bool KeyDown() const { return m_type == Type::KEYDOWN; }
 	bool KeyUp() const { return m_type == Type::KEYUP; }
-	bool IsValid() const { return m_type != Type::INVALID; }
 	unsigned char GetKeyCode() const { return m_key; }
 private:
 	Type m_type;

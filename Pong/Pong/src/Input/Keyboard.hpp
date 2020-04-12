@@ -9,15 +9,15 @@ class Keyboard
 {
 public:
 	Keyboard(){}
-	bool KeyPressed(const unsigned char keycode) const { return m_keys[keycode]; }
-	bool KeyBufferEmpty() const { return m_keyBuffer.empty(); }
+	void Update();
+
+	const bool KeyBufferEmpty() { return m_keyBuffer.empty(); }
 	KeyboardEvent ReadBuffer();
-	void KeyDown(const unsigned char key);
-	void KeyReleased(const unsigned char key);
-	void SetAutoRepeat(bool value) { m_autoRepeat = value; }
-	bool IsAutoRepeat() const { return m_autoRepeat; }
 private:
-	bool m_autoRepeat = true;
-	bool m_keys[256] = { false }; // initialize all keys to false
+	const bool isDown(int key) { return (GetAsyncKeyState(key) & 0x8000) ? 1 : 0; };
 	std::queue<KeyboardEvent> m_keyBuffer;
+
+	// initialize key arrays to null
+	std::array<BYTE, 256> m_currentKeyState = { NULL };
+	std::array<BYTE, 256> m_lastKeyState = { NULL };
 };

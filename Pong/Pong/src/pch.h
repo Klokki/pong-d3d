@@ -14,6 +14,7 @@
 
 // STL INCLUDES
 #include <string>
+#include <array>
 #include <queue>
 #include <vector>
 #include <chrono>
