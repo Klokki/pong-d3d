@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Engine.hpp"
 
+using ms = std::chrono::duration<float, std::milli>;
+
 constexpr unsigned int SCR_WIDTH = 800;
 constexpr unsigned int SCR_HEIGHT = 600;
 
@@ -9,8 +11,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR /*lpCmdLine*/, // unreferenced parameters (hPrevInstance, lpCmdLine, nCmdShow)
 	_In_ int /*nCmdShow*/)
 {
-	using ms = std::chrono::duration<float, std::milli>;
-
 	Engine engine(hInstance, "Pong", "PongClass1", SCR_WIDTH, SCR_HEIGHT);
 
 	std::chrono::high_resolution_clock timer;
