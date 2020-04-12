@@ -30,9 +30,9 @@ void Engine::Update(float delta)
 		// F2 to switch vsync on/off (default on)
 		if (keycode == VK_F2 && e.KeyUp() == true)
 			m_vsync = !m_vsync;
-	}
 
-	m_game.Update(keycode, delta);
+		m_game.Update(keycode, delta);
+	}
 }
 
 void Engine::Render()

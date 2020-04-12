@@ -16,7 +16,7 @@ void Keyboard::Update()
 			m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYDOWN,
 				static_cast<unsigned char>(i)));
 		}
-		else if (!isDown(i) && m_lastKeyState[i] != false)
+		else if (!isDown(i) && m_lastKeyState[i] == true)
 		{
 			m_currentKeyState[i] = false;
 			m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYUP,
