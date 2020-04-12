@@ -18,6 +18,7 @@ public:
 	void Update();
 	void Render();
 private:
+	bool m_vsync = true;
 	Window m_window;
 	Keyboard m_keyboard;
 	Renderer m_renderer;

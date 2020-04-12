@@ -37,9 +37,9 @@ void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 	m_deviceContext->DrawIndexed(6, 0, 0);
 }
 
-void Renderer::EndRender()
+void Renderer::EndRender(bool vsync)
 {
-	m_swapchain->Present(1, NULL);
+	m_swapchain->Present(vsync, NULL);
 }
 
 void Renderer::ToggleFillMode()

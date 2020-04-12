@@ -26,6 +26,10 @@ void Engine::Update()
 		// switch fill mode (solid/wireframe) on keyup
 		if (keycode == VK_F1 && e.KeyUp() == true)
 			m_renderer.ToggleFillMode();
+
+		// F2 to switch vsync on/off (default on)
+		if (keycode == VK_F2 && e.KeyUp() == true)
+			m_vsync = !m_vsync;
 	}
 
 	m_game.Update(keycode);
@@ -35,5 +39,5 @@ void Engine::Render()
 {
 	m_renderer.BeginRender();
 	m_game.Render(m_renderer);
-	m_renderer.EndRender();
+	m_renderer.EndRender(m_vsync);
 }

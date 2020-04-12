@@ -12,7 +12,7 @@ public:
 	Renderer(HWND hwnd, int width, int height);
 	void BeginRender();
 	void Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size);
-	void EndRender();
+	void EndRender(bool vsync);
 	void ToggleFillMode();
 private:
 	void initializeD3D(HWND hwnd);
