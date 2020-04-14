@@ -66,11 +66,7 @@ void AudioEngine::loadFile(const std::wstring& filename, std::vector<BYTE>& audi
 	GUID subType{};
 	hr = nativeMediaType->GetGUID(MF_MT_SUBTYPE, &subType);
 
-	if (subType == MFAudioFormat_Float || subType == MFAudioFormat_PCM)
-	{
-		// File is uncompressed
-	}
-	else
+	if (subType != MFAudioFormat_Float || subType != MFAudioFormat_PCM)
 	{
 		// decompress audio file
 		Microsoft::WRL::ComPtr<IMFMediaType> partialType = nullptr;
