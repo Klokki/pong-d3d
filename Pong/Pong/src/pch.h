@@ -8,6 +8,11 @@
 #include <pathcch.h>
 #include <wrl/client.h>
 
+// WINDOWS MEDIA FOUNDATION
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+
 // DIRECTX INCLUDES
 #include <d3d11.h>
 #include <d3dcompiler.h>

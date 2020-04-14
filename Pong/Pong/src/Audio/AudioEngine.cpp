@@ -11,4 +11,15 @@ AudioEngine::AudioEngine()
 
 	if (FAILED(hr = m_audioDevice->CreateMasteringVoice(&m_masteringVoice)))
 		Error::Message(hr, "Failed to create XAUDIO2 mastering voice");
+
+	// start Windows Media Foundation
+	if (FAILED(hr = MFStartup(MF_VERSION)))
+		Error::Message(hr, "Failed to start Windows Media Foundation");
+}
+
+AudioEngine::~AudioEngine()
+{
+	MFShutdown();
+	m_masteringVoice->DestroyVoice();
+	m_audioDevice->StopEngine();
 }
