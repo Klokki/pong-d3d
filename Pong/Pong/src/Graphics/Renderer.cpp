@@ -60,11 +60,8 @@ void Renderer::ToggleFillMode()
 
 	m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
 
-	if (FAILED(hr = m_device->CreateRasterizerState(&m_rasterizerDescription,
-		m_rasterizerState.GetAddressOf())))
-	{
+	if (FAILED(hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf())))
 		Error::Message(hr, "Could not switch rasterizer state");
-	}
 
 	m_deviceContext->RSSetState(m_rasterizerState.Get());
 }
@@ -116,17 +113,11 @@ void Renderer::initializeD3D(HWND hwnd)
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> backBuffer;
 
-	if (FAILED(hr = m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-		reinterpret_cast<void**>(backBuffer.GetAddressOf()))))
-	{
+	if (FAILED(hr = m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf()))))
 		Error::Message(hr, "GetBuffer failed");
-	}
 
-	if (FAILED(hr = m_device->CreateRenderTargetView(backBuffer.Get(),
-		NULL, m_renderTargetView.GetAddressOf())))
-	{
+	if (FAILED(hr = m_device->CreateRenderTargetView(backBuffer.Get(), NULL, m_renderTargetView.GetAddressOf())))
 		Error::Message(hr, "Failed to create render target view");
-	}
 
 	D3D11_TEXTURE2D_DESC depthStencilDescription;
 	depthStencilDescription.Width = m_width;
@@ -141,17 +132,11 @@ void Renderer::initializeD3D(HWND hwnd)
 	depthStencilDescription.CPUAccessFlags = 0;
 	depthStencilDescription.MiscFlags = 0;
 
-	if (FAILED(hr = m_device->CreateTexture2D(&depthStencilDescription, NULL,
-		m_depthStencilBuffer.GetAddressOf())))
-	{
+	if (FAILED(hr = m_device->CreateTexture2D(&depthStencilDescription, NULL, m_depthStencilBuffer.GetAddressOf())))
 		Error::Message(hr, "Failed to create depth stencil buffer");
-	}
 
-	if (FAILED(hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), NULL,
-		m_depthStencilView.GetAddressOf())))
-	{
+	if (FAILED(hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), NULL, m_depthStencilView.GetAddressOf())))
 		Error::Message(hr, "Failed to create depth stencil view");
-	}
 
 	// Output merger
 	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
@@ -268,9 +253,7 @@ void Renderer::initializeRenderData()
 		Error::Message(hr, "Failed to create constant buffer");
 
 	// set orthographic projection
-	DirectX::XMMATRIX projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f,
-		(float)m_width, 0.0f,
-		(float)m_height, 0.0f, 100.0f);
+	DirectX::XMMATRIX projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f, (float)m_width, 0.0f, (float)m_height, 0.0f, 100.0f);
 
 	m_constantBufferData.projection = projection;
 	m_constantBufferData.projection = DirectX::XMMatrixTranspose(m_constantBufferData.projection);
@@ -283,9 +266,7 @@ void Renderer::initializeRenderData()
 	// set vertex buffer to context
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
-	m_deviceContext->IASetVertexBuffers(0, 1,
-		m_vertexBuffer.GetAddressOf(),
-		&stride, &offset);
+	m_deviceContext->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
 
 	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
 	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
