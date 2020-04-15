@@ -2,6 +2,7 @@
 
 class AudioEngine
 {
+	friend class AudioComponent;
 public:
 	AudioEngine();
 	~AudioEngine();
