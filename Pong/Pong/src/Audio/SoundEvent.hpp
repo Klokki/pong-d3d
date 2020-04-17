@@ -2,13 +2,8 @@
 
 #include "pch.h"
 
-class SoundEvent
+struct SoundEvent
 {
-	friend class AudioComponent;
-public:
-	SoundEvent(){}
-	~SoundEvent(){}
-private:
 	IXAudio2SourceVoice* sourceVoice = nullptr;
 	WAVEFORMATEX waveFormat = { 0 };
 	unsigned int waveLength = NULL;
