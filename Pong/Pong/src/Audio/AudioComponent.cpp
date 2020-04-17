@@ -23,9 +23,11 @@ void AudioComponent::LoadFile(const std::wstring filename, SoundEvent& soundEven
 		Error::Message(hr, "Failed to create source voice");
 
 	ZeroMemory(&soundEvent.audioBuffer, sizeof(XAUDIO2_BUFFER));
+	// the issue with playing back sound is here, submitting the source buffer fails when AudioBytes is not divisible by channels * bytes
 	soundEvent.audioBuffer.AudioBytes = (UINT32)soundEvent.audioData.size();
 	soundEvent.audioBuffer.pAudioData = (BYTE* const)&soundEvent.audioData[0];
 	soundEvent.audioBuffer.pContext = nullptr;
+	soundEvent.audioBuffer.Flags = XAUDIO2_END_OF_STREAM;
 }
 
 void AudioComponent::PlaySound(const SoundEvent& soundEvent)
