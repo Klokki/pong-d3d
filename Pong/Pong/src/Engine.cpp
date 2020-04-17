@@ -9,8 +9,13 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 	m_audio()
 {
 	m_testSound = new SoundEvent();
-	m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\synth.wav", *m_testSound);
+	m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\button.wav", *m_testSound);
 	//m_audio.PlaySound(*m_testSound);
+}
+
+Engine::~Engine()
+{
+	delete m_testSound;
 }
 
 void Engine::Update(float delta)

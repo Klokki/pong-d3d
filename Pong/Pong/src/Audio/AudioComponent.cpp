@@ -36,5 +36,6 @@ void AudioComponent::PlaySound(const SoundEvent& soundEvent)
 	if (FAILED(hr = soundEvent.sourceVoice->SubmitSourceBuffer(&soundEvent.audioBuffer)))
 		Error::Message(hr, "Failed to submit source buffer");
 
-	soundEvent.sourceVoice->Start();
+	if (FAILED(hr = soundEvent.sourceVoice->Start()))
+		Error::Message(hr, "Failed to start SoundEvent");
 }

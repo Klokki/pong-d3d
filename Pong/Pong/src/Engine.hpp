@@ -10,6 +10,7 @@ class Engine
 {
 public:
 	Engine(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
+	~Engine();
 
 	bool ProcessMessages()
 	{
