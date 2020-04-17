@@ -11,7 +11,7 @@ public:
 private:
 	IXAudio2SourceVoice* sourceVoice = nullptr;
 	WAVEFORMATEX waveFormat;
-	unsigned int waveLength;
+	unsigned int waveLength = NULL;
 	std::vector<BYTE> audioData = { NULL };
 	XAUDIO2_BUFFER audioBuffer;
 	unsigned int index = 0;

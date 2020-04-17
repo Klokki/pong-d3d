@@ -88,6 +88,9 @@ void AudioEngine::loadFile(const std::wstring& filename, std::vector<BYTE>& audi
 	// uncompress data and load into XAudio buffer
 	Microsoft::WRL::ComPtr<IMFMediaType> uncompressedType = nullptr;
 
+	if (FAILED(hr = sourceReader->GetCurrentMediaType((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM, uncompressedType.GetAddressOf())))
+		Error::Message(hr, "Failed to get current media type");
+
 	if (FAILED(hr = MFCreateWaveFormatExFromMFMediaType(uncompressedType.Get(), waveFormatEx, &waveFormatLength)))
 		Error::Message(hr, "Failed to create wave format");
 
