@@ -20,6 +20,17 @@ void Renderer::BeginRender()
 
 void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 {
+	// set input layout and shaders to context
+	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
+	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_deviceContext->RSSetState(m_rasterizerState.Get());
+
+	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
+	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
+
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+
 	// update constant buffer
 	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(position.x, position.y, 0.0f);
 	DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationZ(0.0f);
@@ -34,6 +45,11 @@ void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 	CopyMemory(mappedResource.pData, &m_constantBufferData, sizeof(CB_VS));
 	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
 
+	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
+
+	// set vertex and index buffers and draw
+	m_deviceContext->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
+	m_deviceContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	m_deviceContext->DrawIndexed(6, 0, 0);
 }
 
@@ -62,8 +78,6 @@ void Renderer::ToggleFillMode()
 
 	if (FAILED(hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf())))
 		Error::Message(hr, "Could not switch rasterizer state");
-
-	m_deviceContext->RSSetState(m_rasterizerState.Get());
 }
 
 void Renderer::initializeD3D(HWND hwnd)
@@ -119,6 +133,9 @@ void Renderer::initializeD3D(HWND hwnd)
 	if (FAILED(hr = m_device->CreateRenderTargetView(backBuffer.Get(), NULL, m_renderTargetView.GetAddressOf())))
 		Error::Message(hr, "Failed to create render target view");
 
+	// Output merger
+	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+
 	D3D11_TEXTURE2D_DESC depthStencilDescription;
 	depthStencilDescription.Width = m_width;
 	depthStencilDescription.Height = m_height;
@@ -137,9 +154,6 @@ void Renderer::initializeD3D(HWND hwnd)
 
 	if (FAILED(hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), NULL, m_depthStencilView.GetAddressOf())))
 		Error::Message(hr, "Failed to create depth stencil view");
-
-	// Output merger
-	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
 
 	// rasterizer (viewport)
 	D3D11_VIEWPORT viewport;
@@ -162,8 +176,6 @@ void Renderer::initializeD3D(HWND hwnd)
 
 	if (FAILED(hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf())))
 		Error::Message(hr, "Failed to create rasterizer state");
-
-	m_deviceContext->RSSetState(m_rasterizerState.Get());
 }
 
 void Renderer::initializeShaders()
@@ -257,20 +269,6 @@ void Renderer::initializeRenderData()
 
 	m_constantBufferData.projection = projection;
 	m_constantBufferData.projection = DirectX::XMMatrixTranspose(m_constantBufferData.projection);
-
-	// set input layout and shaders to context
-	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
-	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	m_deviceContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-
-	// set vertex buffer to context
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	m_deviceContext->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
-
-	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
-	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
-	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
 }
 
 std::wstring Renderer::getOutputPath()
