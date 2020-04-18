@@ -13,5 +13,5 @@ public:
 	void PlaySound(const Sound& sound);
 	void StopSound(const Sound& sound);
 private:
-	std::unique_ptr<AudioEngine> m_audioEngine;
+	AudioEngine m_audioEngine;
 };

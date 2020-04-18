@@ -2,8 +2,9 @@
 #include "AudioComponent.hpp"
 
 AudioComponent::AudioComponent()
+	:
+	m_audioEngine()
 {
-	m_audioEngine = std::make_unique<AudioEngine>();
 }
 
 AudioComponent::~AudioComponent()
@@ -15,10 +16,10 @@ void AudioComponent::LoadFile(const std::wstring filename, Sound& sound)
 	HRESULT hr;
 	WAVEFORMATEX* waveFormat;
 
-	m_audioEngine->loadFile(filename, sound.audioData, &waveFormat, sound.waveLength);
+	m_audioEngine.loadFile(filename, sound.audioData, &waveFormat, sound.waveLength);
 	sound.waveFormat = *waveFormat;
 
-	if (FAILED(hr = m_audioEngine->m_audioDevice->CreateSourceVoice(&sound.sourceVoice, &sound.waveFormat)))
+	if (FAILED(hr = m_audioEngine.m_audioDevice->CreateSourceVoice(&sound.sourceVoice, &sound.waveFormat)))
 		Error::Message(hr, "Failed to create source voice");
 
 	ZeroMemory(&sound.audioBuffer, sizeof(XAUDIO2_BUFFER));
