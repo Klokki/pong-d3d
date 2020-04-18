@@ -41,3 +41,11 @@ void AudioComponent::PlaySound(const SoundEvent& soundEvent)
 	if (FAILED(hr = soundEvent.sourceVoice->Start()))
 		Error::Message(hr, "Failed to start SoundEvent");
 }
+
+void AudioComponent::StopSound(const SoundEvent& soundEvent)
+{
+	HRESULT hr;
+
+	if (FAILED(hr = soundEvent.sourceVoice->Stop()))
+		Error::Message(hr, "Failed to stop SoundEvent");
+}

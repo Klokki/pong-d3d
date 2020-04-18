@@ -11,6 +11,7 @@ public:
 
 	void LoadFile(const std::wstring fileName, SoundEvent& soundEvent);
 	void PlaySound(const SoundEvent& soundEvent);
+	void StopSound(const SoundEvent& soundEvent);
 private:
 	AudioEngine* m_audioEngine;
 };

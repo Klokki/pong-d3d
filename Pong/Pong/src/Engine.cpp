@@ -15,6 +15,7 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 
 Engine::~Engine()
 {
+	m_audio.StopSound(*m_testSound); // if the sound is not stopped, there is an access violation when deleting the SoundEvent
 	delete m_testSound;
 }
 
