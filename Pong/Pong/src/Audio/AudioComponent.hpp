@@ -9,9 +9,9 @@ public:
 	AudioComponent();
 	~AudioComponent();
 
-	void LoadFile(const std::wstring fileName, Sound& soundEvent);
-	void PlaySound(const Sound& soundEvent);
-	void StopSound(const Sound& soundEvent);
+	void LoadFile(const std::wstring fileName, Sound& sound);
+	void PlaySound(const Sound& sound);
+	void StopSound(const Sound& sound);
 private:
-	AudioEngine* m_audioEngine;
+	std::unique_ptr<AudioEngine> m_audioEngine;
 };

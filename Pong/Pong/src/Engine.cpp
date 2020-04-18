@@ -8,15 +8,14 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 	m_game(width, height),
 	m_audio()
 {
-	m_testSound = new Sound();
-	m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\button.wav", *m_testSound);
+	m_testSound = std::make_unique<Sound>();
+	m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\synth.wav", *m_testSound);
 	m_audio.PlaySound(*m_testSound);
 }
 
 Engine::~Engine()
 {
 	m_audio.StopSound(*m_testSound); // if the sound is not stopped, there is an access violation when deleting the Sound
-	delete m_testSound;
 }
 
 void Engine::Update(float delta)

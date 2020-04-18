@@ -26,5 +26,5 @@ private:
 	Renderer m_renderer;
 	Game m_game;
 	AudioComponent m_audio;
-	Sound* m_testSound;
+	std::unique_ptr<Sound> m_testSound;
 };

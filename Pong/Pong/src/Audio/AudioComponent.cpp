@@ -3,49 +3,47 @@
 
 AudioComponent::AudioComponent()
 {
-	m_audioEngine = new AudioEngine();
+	m_audioEngine = std::make_unique<AudioEngine>();
 }
 
 AudioComponent::~AudioComponent()
 {
-	delete m_audioEngine;
 }
 
-void AudioComponent::LoadFile(const std::wstring filename, Sound& soundEvent)
+void AudioComponent::LoadFile(const std::wstring filename, Sound& sound)
 {
 	HRESULT hr;
 	WAVEFORMATEX* waveFormat;
 
-	m_audioEngine->loadFile(filename, soundEvent.audioData, &waveFormat, soundEvent.waveLength);
-	soundEvent.waveFormat = *waveFormat;
+	m_audioEngine->loadFile(filename, sound.audioData, &waveFormat, sound.waveLength);
+	sound.waveFormat = *waveFormat;
 
-	if (FAILED(hr = m_audioEngine->m_audioDevice->CreateSourceVoice(&soundEvent.sourceVoice, &soundEvent.waveFormat)))
+	if (FAILED(hr = m_audioEngine->m_audioDevice->CreateSourceVoice(&sound.sourceVoice, &sound.waveFormat)))
 		Error::Message(hr, "Failed to create source voice");
 
-	ZeroMemory(&soundEvent.audioBuffer, sizeof(XAUDIO2_BUFFER));
-	// the issue with playing back sound is here, submitting the source buffer fails when AudioBytes is not divisible by channels * bytes
-	soundEvent.audioBuffer.AudioBytes = (UINT32)soundEvent.audioData.size();
-	soundEvent.audioBuffer.pAudioData = (BYTE* const)&soundEvent.audioData[0];
-	soundEvent.audioBuffer.pContext = nullptr;
-	soundEvent.audioBuffer.Flags = XAUDIO2_END_OF_STREAM;
+	ZeroMemory(&sound.audioBuffer, sizeof(XAUDIO2_BUFFER));
+	sound.audioBuffer.AudioBytes = (UINT32)sound.audioData.size();
+	sound.audioBuffer.pAudioData = (BYTE* const)&sound.audioData[0];
+	sound.audioBuffer.pContext = nullptr;
+	sound.audioBuffer.Flags = XAUDIO2_END_OF_STREAM;
 }
 
-void AudioComponent::PlaySound(const Sound& soundEvent)
+void AudioComponent::PlaySound(const Sound& sound)
 {
 	HRESULT hr;
 
 	// submit audio buffer to source voice
-	if (FAILED(hr = soundEvent.sourceVoice->SubmitSourceBuffer(&soundEvent.audioBuffer)))
+	if (FAILED(hr = sound.sourceVoice->SubmitSourceBuffer(&sound.audioBuffer)))
 		Error::Message(hr, "Failed to submit source buffer");
 
-	if (FAILED(hr = soundEvent.sourceVoice->Start()))
+	if (FAILED(hr = sound.sourceVoice->Start()))
 		Error::Message(hr, "Failed to start Sound");
 }
 
-void AudioComponent::StopSound(const Sound& soundEvent)
+void AudioComponent::StopSound(const Sound& sound)
 {
 	HRESULT hr;
 
-	if (FAILED(hr = soundEvent.sourceVoice->Stop()))
+	if (FAILED(hr = sound.sourceVoice->Stop()))
 		Error::Message(hr, "Failed to stop Sound");
 }
