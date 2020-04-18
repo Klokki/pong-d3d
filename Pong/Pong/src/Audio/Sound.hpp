@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-struct SoundEvent
+struct Sound
 {
 	IXAudio2SourceVoice* sourceVoice = nullptr;
 	WAVEFORMATEX waveFormat = { 0 };

@@ -26,5 +26,5 @@ private:
 	Renderer m_renderer;
 	Game m_game;
 	AudioComponent m_audio;
-	SoundEvent* m_testSound;
+	Sound* m_testSound;
 };

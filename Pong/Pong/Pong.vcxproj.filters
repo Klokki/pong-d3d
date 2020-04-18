@@ -98,10 +98,10 @@
     <ClInclude Include="src\Audio\AudioEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Audio\SoundEvent.hpp">
+    <ClInclude Include="src\Audio\AudioComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Audio\AudioComponent.hpp">
+    <ClInclude Include="src\Audio\Sound.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

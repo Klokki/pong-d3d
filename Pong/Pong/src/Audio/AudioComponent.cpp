@@ -11,7 +11,7 @@ AudioComponent::~AudioComponent()
 	delete m_audioEngine;
 }
 
-void AudioComponent::LoadFile(const std::wstring filename, SoundEvent& soundEvent)
+void AudioComponent::LoadFile(const std::wstring filename, Sound& soundEvent)
 {
 	HRESULT hr;
 	WAVEFORMATEX* waveFormat;
@@ -30,7 +30,7 @@ void AudioComponent::LoadFile(const std::wstring filename, SoundEvent& soundEven
 	soundEvent.audioBuffer.Flags = XAUDIO2_END_OF_STREAM;
 }
 
-void AudioComponent::PlaySound(const SoundEvent& soundEvent)
+void AudioComponent::PlaySound(const Sound& soundEvent)
 {
 	HRESULT hr;
 
@@ -39,13 +39,13 @@ void AudioComponent::PlaySound(const SoundEvent& soundEvent)
 		Error::Message(hr, "Failed to submit source buffer");
 
 	if (FAILED(hr = soundEvent.sourceVoice->Start()))
-		Error::Message(hr, "Failed to start SoundEvent");
+		Error::Message(hr, "Failed to start Sound");
 }
 
-void AudioComponent::StopSound(const SoundEvent& soundEvent)
+void AudioComponent::StopSound(const Sound& soundEvent)
 {
 	HRESULT hr;
 
 	if (FAILED(hr = soundEvent.sourceVoice->Stop()))
-		Error::Message(hr, "Failed to stop SoundEvent");
+		Error::Message(hr, "Failed to stop Sound");
 }

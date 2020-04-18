@@ -192,7 +192,7 @@
   <ItemGroup>
     <ClInclude Include="src\Audio\AudioComponent.hpp" />
     <ClInclude Include="src\Audio\AudioEngine.hpp" />
-    <ClInclude Include="src\Audio\SoundEvent.hpp" />
+    <ClInclude Include="src\Audio\Sound.hpp" />
     <ClInclude Include="src\Engine.hpp" />
     <ClInclude Include="src\Game\Game.hpp" />
     <ClInclude Include="src\Game\GameObject.hpp" />
