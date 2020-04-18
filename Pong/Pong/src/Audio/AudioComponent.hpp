@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AudioEngine.hpp"
-#include "SoundEvent.hpp"
+#include "Sound.hpp"
 
 class AudioComponent
 {
