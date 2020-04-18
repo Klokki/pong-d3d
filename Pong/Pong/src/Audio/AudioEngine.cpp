@@ -99,7 +99,7 @@ void AudioEngine::loadFile(const std::wstring& filename, std::vector<BYTE>& audi
 
 	Microsoft::WRL::ComPtr<IMFSample> sample = nullptr;
 	Microsoft::WRL::ComPtr<IMFMediaBuffer> buffer = nullptr;
-	BYTE* localAudioData = NULL;
+	BYTE* localAudioData = nullptr;
 	DWORD localAudioDataLength = 0;
 
 	while (true)
@@ -125,7 +125,7 @@ void AudioEngine::loadFile(const std::wstring& filename, std::vector<BYTE>& audi
 		if (FAILED(hr = buffer->Lock(&localAudioData, nullptr, &localAudioDataLength)))
 			Error::Message(hr, "Failed to lock audio buffer");
 
-		for (size_t i = 0; i < localAudioDataLength; i++)
+		for (size_t i = 0; i < localAudioDataLength; ++i)
 			audioData.push_back(localAudioData[i]);
 
 		hr = buffer->Unlock();
