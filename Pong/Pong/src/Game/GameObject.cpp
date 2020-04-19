@@ -16,3 +16,8 @@ void GameObject::Update(unsigned char keycode, float delta)
 	if (keycode == 0x44 && m_position.x < 800.f - m_size.x / 2 || keycode == VK_RIGHT && m_position.x < 800.f - m_size.x / 2)
 		m_position.x += 1.f * delta;
 }
+
+void GameObject::Move(float value)
+{
+	m_position.x += value;
+}

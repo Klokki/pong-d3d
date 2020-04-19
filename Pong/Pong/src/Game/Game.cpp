@@ -4,23 +4,33 @@
 Game::Game(int width, int height)
 	:
 	m_gameWidth(width), m_gameHeight(height),
-	m_testObject({ (float)width / 2, 10.0f }, PADDLE_SIZE),
-	m_testObject2({ (float)width / 2, (float)height - 10.0f }, PADDLE_SIZE),
-	m_testObject3({ (float)width / 2, (float)height / 2 }, { 5.f, 5.f })
+	m_bottomPaddle({ (float)width / 2, 10.0f }, PADDLE_SIZE),
+	m_topPaddle({ (float)width / 2, (float)height - 10.0f }, PADDLE_SIZE),
+	m_square({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 }, SQUARE_SIZE)
 {
+	m_square.SetStuck(true);
 }
 
 void Game::Update(unsigned char keycode, float delta)
 {
-	if (keycode == 0x41 || keycode == 0x44)
-		m_testObject.Update(keycode, delta);
-	else if (keycode == VK_LEFT || keycode == VK_RIGHT)
-		m_testObject2.Update(keycode, delta);
+	// move paddles except when touching the edges of the screen
+	if (keycode == 0x41 && m_bottomPaddle.GetPosition().x > m_bottomPaddle.GetSize().x / 2)
+		m_bottomPaddle.Move(-1.f * delta);
+	if (keycode == VK_LEFT && m_topPaddle.GetPosition().x > m_topPaddle.GetSize().x / 2)
+		m_topPaddle.Move(-1.f * delta);
+	if (keycode == 0x44 && m_bottomPaddle.GetPosition().x < 800.f - m_bottomPaddle.GetSize().x / 2)
+		m_bottomPaddle.Move(1.f * delta);
+	if (keycode == VK_RIGHT && m_topPaddle.GetPosition().x < 800.f - m_topPaddle.GetSize().x / 2)
+		m_topPaddle.Move(1.f * delta);
+
+	// when "ball" is stuck, move with the paddle
+	if (m_square.IsStuck())
+		m_square.SetPosition(m_bottomPaddle.GetPosition().x);
 }
 
 void Game::Render(Renderer& renderer)
 {
-	m_testObject.Draw(renderer);
-	m_testObject2.Draw(renderer);
-	m_testObject3.Draw(renderer);
+	m_bottomPaddle.Draw(renderer);
+	m_topPaddle.Draw(renderer);
+	m_square.Draw(renderer);
 }
