@@ -4,10 +4,8 @@
 Game::Game(int width, int height)
 	:
 	m_gameWidth(width), m_gameHeight(height),
-	m_testObject({(float)width / 2, 50.0f},
-		{100.0f, 50.0f}),
-	m_testObject2({ (float)width / 2, (float)height - 50.0f },
-		{ 100.0f, 50.0f })
+	m_testObject({ (float)width / 2, 10.0f }, PADDLE_SIZE),
+	m_testObject2({ (float)width / 2, (float)height - 10.0f }, PADDLE_SIZE)
 {
 }
 

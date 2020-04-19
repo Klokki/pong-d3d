@@ -5,6 +5,8 @@
 // Game.hpp
 // Handles all gameplay logic
 
+constexpr DirectX::XMFLOAT2 PADDLE_SIZE = { 100.0f, 10.0f };
+
 class Game
 {
 public:

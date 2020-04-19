@@ -199,10 +199,10 @@ void Renderer::initializeRenderData()
 {
 	Vertex v[] =
 	{
-		Vertex(-0.5f, -0.5f, 1.0f, 0.0f, 1.0f), // Bottom left
-		Vertex(-0.5f, 0.5f, 1.0f, 0.0f, 0.0f), // Top left
-		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 0.0f), // Top right
-		Vertex(0.5f, -0.5f, 0.0f, 0.0f, 1.0f), // Bottom right
+		Vertex(-0.5f, -0.5f, 1.0f, 1.0f, 1.0f), // Bottom left
+		Vertex(-0.5f, 0.5f, 1.0f, 1.0f, 1.0f), // Top left
+		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 1.0f), // Top right
+		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f), // Bottom right
 	};
 
 	DWORD indices[] =
