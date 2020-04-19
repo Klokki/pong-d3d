@@ -32,4 +32,3 @@
 
 // PROJECT INCLUDES
 #include "Utility/Error.hpp"
-#include "Utility/Profiler.hpp"
