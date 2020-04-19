@@ -197,7 +197,7 @@ void Renderer::initializeShaders()
 
 void Renderer::initializeRenderData()
 {
-	Vertex v[] =
+	Vertex vertices[] =
 	{
 		Vertex(-0.5f, -0.5f, 1.0f, 1.0f, 1.0f), // Bottom left
 		Vertex(-0.5f, 0.5f, 1.0f, 1.0f, 1.0f), // Top left
@@ -217,7 +217,7 @@ void Renderer::initializeRenderData()
 	ZeroMemory(&vertexBufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexBufferDesc.ByteWidth = vertexSize * ARRAYSIZE(v);
+	vertexBufferDesc.ByteWidth = vertexSize * ARRAYSIZE(vertices);
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.MiscFlags = 0;
@@ -225,7 +225,7 @@ void Renderer::initializeRenderData()
 	D3D11_SUBRESOURCE_DATA vertexBufferData;
 	ZeroMemory(&vertexBufferData, sizeof(D3D11_SUBRESOURCE_DATA));
 
-	vertexBufferData.pSysMem = v;
+	vertexBufferData.pSysMem = vertices;
 
 	HRESULT hr;
 

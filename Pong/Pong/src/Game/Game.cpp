@@ -5,7 +5,8 @@ Game::Game(int width, int height)
 	:
 	m_gameWidth(width), m_gameHeight(height),
 	m_testObject({ (float)width / 2, 10.0f }, PADDLE_SIZE),
-	m_testObject2({ (float)width / 2, (float)height - 10.0f }, PADDLE_SIZE)
+	m_testObject2({ (float)width / 2, (float)height - 10.0f }, PADDLE_SIZE),
+	m_testObject3({ (float)width / 2, (float)height / 2 }, { 5.f, 5.f })
 {
 }
 
@@ -21,4 +22,5 @@ void Game::Render(Renderer& renderer)
 {
 	m_testObject.Draw(renderer);
 	m_testObject2.Draw(renderer);
+	m_testObject3.Draw(renderer);
 }

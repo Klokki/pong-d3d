@@ -15,5 +15,5 @@ public:
 	void Render(Renderer& renderer);
 private:
 	int m_gameWidth, m_gameHeight;
-	GameObject m_testObject, m_testObject2;
+	GameObject m_testObject, m_testObject2, m_testObject3;
 };
