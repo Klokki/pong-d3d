@@ -18,14 +18,22 @@ void Game::Update(unsigned char keycode, float delta)
 		m_bottomPaddle.Move({ -1.f * delta, 0.f * delta });
 	if (keycode == VK_LEFT && m_topPaddle.GetPosition().x > m_topPaddle.GetSize().x / 2)
 		m_topPaddle.Move({ -1.f * delta, 0.f * delta });
-	if (keycode == 0x44 && m_bottomPaddle.GetPosition().x < 800.f - m_bottomPaddle.GetSize().x / 2)
+	if (keycode == 0x44 && m_bottomPaddle.GetPosition().x < m_gameWidth - m_bottomPaddle.GetSize().x / 2)
 		m_bottomPaddle.Move({ 1.f * delta, 0.f * delta });
-	if (keycode == VK_RIGHT && m_topPaddle.GetPosition().x < 800.f - m_topPaddle.GetSize().x / 2)
+	if (keycode == VK_RIGHT && m_topPaddle.GetPosition().x < m_gameWidth - m_topPaddle.GetSize().x / 2)
 		m_topPaddle.Move({ 1.f * delta, 0.f * delta });
 
-	// when "ball" is stuck, move with the paddle
+	// if space is pressed, unstuck the ball
+	if (keycode == VK_SPACE)
+		m_square.SetStuck(false);
+
+	// when "ball" is stuck, move with the paddle, when it's not, move normally
 	if (m_square.IsStuck())
 		m_square.SetPosition(m_bottomPaddle.GetPosition().x);
+	else
+	{
+		m_square.Move({ 0.f * delta, 0.1f * delta });
+	}
 }
 
 void Game::Render(Renderer& renderer)
