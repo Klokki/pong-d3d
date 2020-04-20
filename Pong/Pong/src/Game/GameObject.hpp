@@ -6,8 +6,7 @@ class GameObject
 {
 public:
 	GameObject(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size);
-	void Update(unsigned char keycode, float delta);
-	void Move(float value);
+	void Move(DirectX::XMFLOAT2 value);
 	void Draw(Renderer& renderer) { renderer.Render(m_position, m_size); }
 
 	void SetStuck(bool value) { m_stuck = value; }

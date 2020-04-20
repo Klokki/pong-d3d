@@ -15,13 +15,13 @@ void Game::Update(unsigned char keycode, float delta)
 {
 	// move paddles except when touching the edges of the screen
 	if (keycode == 0x41 && m_bottomPaddle.GetPosition().x > m_bottomPaddle.GetSize().x / 2)
-		m_bottomPaddle.Move(-1.f * delta);
+		m_bottomPaddle.Move({ -1.f * delta, 0.f * delta });
 	if (keycode == VK_LEFT && m_topPaddle.GetPosition().x > m_topPaddle.GetSize().x / 2)
-		m_topPaddle.Move(-1.f * delta);
+		m_topPaddle.Move({ -1.f * delta, 0.f * delta });
 	if (keycode == 0x44 && m_bottomPaddle.GetPosition().x < 800.f - m_bottomPaddle.GetSize().x / 2)
-		m_bottomPaddle.Move(1.f * delta);
+		m_bottomPaddle.Move({ 1.f * delta, 0.f * delta });
 	if (keycode == VK_RIGHT && m_topPaddle.GetPosition().x < 800.f - m_topPaddle.GetSize().x / 2)
-		m_topPaddle.Move(1.f * delta);
+		m_topPaddle.Move({ 1.f * delta, 0.f * delta });
 
 	// when "ball" is stuck, move with the paddle
 	if (m_square.IsStuck())
