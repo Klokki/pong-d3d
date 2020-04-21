@@ -11,13 +11,13 @@ constexpr DirectX::XMFLOAT2 SQUARE_SIZE = { 5.f, 5.f };
 class Game
 {
 public:
-	Game(int width, int height);
-	void HandleInput(unsigned char keycode, float delta);
-	void Update(float delta);
-	void Render(Renderer& renderer);
+    Game(int width, int height);
+    void HandleInput(unsigned char keycode, float delta);
+    void Update(float delta);
+    void Render(Renderer& renderer);
 private:
-	void reset();
+    void reset();
 
-	int m_gameWidth, m_gameHeight;
-	GameObject m_bottomPaddle, m_topPaddle, m_square;
+    int m_gameWidth, m_gameHeight;
+    GameObject m_bottomPaddle, m_topPaddle, m_square;
 };

@@ -6,12 +6,12 @@
 class AudioComponent
 {
 public:
-	AudioComponent();
-	~AudioComponent();
+    AudioComponent();
+    ~AudioComponent();
 
-	void LoadFile(const std::wstring fileName, Sound& sound);
-	void PlaySound(const Sound& sound);
-	void StopSound(const Sound& sound);
+    void LoadFile(const std::wstring fileName, Sound& sound);
+    void PlaySound(const Sound& sound);
+    void StopSound(const Sound& sound);
 private:
-	AudioEngine m_audioEngine;
+    AudioEngine m_audioEngine;
 };
