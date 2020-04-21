@@ -11,7 +11,7 @@ Game::Game(int width, int height)
 	m_square.SetStuck(true);
 }
 
-void Game::Update(unsigned char keycode, float delta)
+void Game::HandleInput(unsigned char keycode, float delta)
 {
 	// move paddles except when touching the edges of the screen
 	if (keycode == 0x41 && m_bottomPaddle.GetPosition().x > m_bottomPaddle.GetSize().x / 2)
@@ -26,14 +26,15 @@ void Game::Update(unsigned char keycode, float delta)
 	// if space is pressed, unstuck the ball
 	if (keycode == VK_SPACE)
 		m_square.SetStuck(false);
+}
 
+void Game::Update(float delta)
+{
 	// when "ball" is stuck, move with the paddle, when it's not, move normally
 	if (m_square.IsStuck())
 		m_square.SetPosition(m_bottomPaddle.GetPosition().x);
 	else
-	{
 		m_square.Move({ 0.f * delta, 0.1f * delta });
-	}
 }
 
 void Game::Render(Renderer& renderer)
