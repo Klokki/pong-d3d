@@ -23,7 +23,6 @@ void Engine::Update(float delta)
 	m_keyboard.Update();
 	unsigned char keycode = NULL;
 
-
 	while (!m_keyboard.KeyBufferEmpty())
 	{
 		KeyboardEvent e = m_keyboard.ReadBuffer();

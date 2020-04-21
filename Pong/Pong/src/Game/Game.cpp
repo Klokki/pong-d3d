@@ -32,9 +32,13 @@ void Game::Update(float delta)
 {
 	// when "ball" is stuck, move with the paddle, when it's not, move normally
 	if (m_square.IsStuck())
-		m_square.SetPosition(m_bottomPaddle.GetPosition().x);
+		m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_square.GetPosition().y });
 	else
 		m_square.Move({ 0.f * delta, 0.1f * delta });
+
+	// if the ball goes outside the playfield y axis, reset
+	if (m_square.GetPosition().y > m_gameHeight || m_square.GetPosition().y < 0.f)
+		reset();
 }
 
 void Game::Render(Renderer& renderer)
@@ -42,4 +46,13 @@ void Game::Render(Renderer& renderer)
 	m_bottomPaddle.Draw(renderer);
 	m_topPaddle.Draw(renderer);
 	m_square.Draw(renderer);
+}
+
+void Game::reset()
+{
+	// reset playfield to original positions
+	m_bottomPaddle.SetPosition({ (float)m_gameWidth / 2, m_bottomPaddle.GetPosition().y });
+	m_topPaddle.SetPosition({ (float)m_gameWidth / 2, m_topPaddle.GetPosition().y });
+	m_square.SetStuck(true);
+	m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 });
 }

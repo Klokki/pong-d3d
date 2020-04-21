@@ -16,6 +16,8 @@ public:
 	void Update(float delta);
 	void Render(Renderer& renderer);
 private:
+	void reset();
+
 	int m_gameWidth, m_gameHeight;
 	GameObject m_bottomPaddle, m_topPaddle, m_square;
 };
