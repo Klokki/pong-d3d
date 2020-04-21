@@ -38,13 +38,15 @@ Window::Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::
 		eng
 	);
 
-	if (m_handle == NULL)
+	if (m_handle != NULL)
+	{
+		// show and set window as foreground
+		ShowWindow(m_handle, SW_SHOW);
+		SetForegroundWindow(m_handle);
+		SetFocus(m_handle);
+	}
+	else
 		Error::Message(GetLastError(), "CreateWindowEX failed for window " + m_window_title);
-
-	// show and set window as foreground
-	ShowWindow(m_handle, SW_SHOW);
-	SetForegroundWindow(m_handle);
-	SetFocus(m_handle);
 }
 
 bool Window::ProcessMessages()
