@@ -14,7 +14,7 @@ void GameObject::Move(DirectX::XMFLOAT2 value)
 	m_position.y += value.y;
 }
 
-void GameObject::Draw(Renderer& renderer)
+void GameObject::Render(Renderer& renderer)
 {
 	renderer.Render(m_position, m_size);
 }

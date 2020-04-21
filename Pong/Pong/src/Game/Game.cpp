@@ -43,9 +43,9 @@ void Game::Update(float delta)
 
 void Game::Render(Renderer& renderer)
 {
-	m_bottomPaddle.Draw(renderer);
-	m_topPaddle.Draw(renderer);
-	m_square.Draw(renderer);
+	m_bottomPaddle.Render(renderer);
+	m_topPaddle.Render(renderer);
+	m_square.Render(renderer);
 }
 
 void Game::reset()

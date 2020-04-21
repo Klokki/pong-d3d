@@ -7,7 +7,7 @@ class GameObject
 public:
 	GameObject(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size);
 	void Move(DirectX::XMFLOAT2 value);
-	void Draw(Renderer& renderer);
+	void Render(Renderer& renderer);
 
 	bool IsStuck() { return m_stuck; }
 	DirectX::XMFLOAT2 GetPosition() { return m_position; }
