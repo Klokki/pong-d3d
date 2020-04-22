@@ -48,13 +48,14 @@ void AudioComponent::StopSound(const std::string name)
     HRESULT hr;
 
     if (FAILED(hr = m_sounds[name].sourceVoice->Stop()))
-        Error::Message(hr, "Failed to stop Sound");
+        Error::Message(hr, "Failed to stop Sound" + name);
 }
 
 void AudioComponent::StopSounds()
 {
     HRESULT hr;
 
+    // iterate through the map of sounds and stop all of them
     for (auto const& [key, val] : m_sounds)
     {
         if (FAILED(hr = val.sourceVoice->Stop()))

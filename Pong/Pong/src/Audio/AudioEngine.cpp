@@ -26,6 +26,7 @@ AudioEngine::AudioEngine()
 AudioEngine::~AudioEngine()
 {
     MFShutdown();
+
     if(m_masteringVoice)
         m_masteringVoice->DestroyVoice();
 
