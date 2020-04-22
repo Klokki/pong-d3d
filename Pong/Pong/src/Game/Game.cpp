@@ -46,15 +46,10 @@ void Game::Update(float delta)
     if (m_square.GetPosition().y > m_gameHeight || m_square.GetPosition().y < 0.f)
         reset();
 
-    if (checkCollision(m_square, m_topPaddle))
+    // on collision reverse ball direction
+    if (checkCollision(m_square, m_topPaddle) || checkCollision(m_square, m_bottomPaddle) && !m_square.IsStuck())
     {
-        m_square.SetVelocity({ 0.f, -0.3f });
-        m_audio->PlaySound("test");
-    }
-
-    if (checkCollision(m_square, m_bottomPaddle) && !m_square.IsStuck())
-    {
-        m_square.SetVelocity({ 0.f, 0.3f });
+        m_square.SetVelocity({ 0.f, -m_square.GetVelocity().y });
         m_audio->PlaySound("test");
     }
 }

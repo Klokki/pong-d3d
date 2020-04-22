@@ -13,6 +13,7 @@ public:
     bool IsStuck() { return m_stuck; }
     DirectX::XMFLOAT2 GetPosition() { return m_position; }
     DirectX::XMFLOAT2 GetSize() { return m_size; }
+    DirectX::XMFLOAT2 GetVelocity() { return m_velocity; }
 
     void SetPosition(DirectX::XMFLOAT2 position) { m_position = position; }
     void SetStuck(bool value) { m_stuck = value; }
