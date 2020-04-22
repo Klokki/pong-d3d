@@ -43,10 +43,21 @@ void AudioComponent::PlaySound(const std::string name)
         Error::Message(hr, "Failed to start Sound");
 }
 
-void AudioComponent::StopSound(const Sound& sound)
+void AudioComponent::StopSound(const std::string name)
 {
     HRESULT hr;
 
-    if (FAILED(hr = sound.sourceVoice->Stop()))
+    if (FAILED(hr = m_sounds[name].sourceVoice->Stop()))
         Error::Message(hr, "Failed to stop Sound");
+}
+
+void AudioComponent::StopSounds()
+{
+    HRESULT hr;
+
+    for (auto const& [key, val] : m_sounds)
+    {
+        if (FAILED(hr = val.sourceVoice->Stop()))
+            Error::Message(hr, "Failed to stop sound " + key);
+    }
 }

@@ -14,7 +14,7 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 
 Engine::~Engine()
 {
-    m_audio.StopSound(*m_testSound); // if the sound is not stopped, there is an access violation when deleting the Sound
+    m_audio.StopSounds(); // stop all sounds to prevent access violation when deleting a playing sound
 }
 
 void Engine::Update(float delta)
