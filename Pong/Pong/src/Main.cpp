@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Engine.hpp"
 
-using ms = std::chrono::duration<float, std::milli>;
-
 constexpr unsigned int SCR_WIDTH = 800;
 constexpr unsigned int SCR_HEIGHT = 600;
 
@@ -19,7 +17,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     while (engine.ProcessMessages() == true)
     {
         auto currentFrame = timer.now();
-        float deltaTime = std::chrono::duration_cast<ms>(currentFrame - startTime).count();
+        float deltaTime = std::chrono::duration_cast<std::chrono::duration<float, std::milli>>(currentFrame - startTime).count();
         startTime = currentFrame;
 
         engine.Update(deltaTime);

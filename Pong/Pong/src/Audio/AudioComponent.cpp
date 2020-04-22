@@ -9,6 +9,9 @@ AudioComponent::AudioComponent()
 
 AudioComponent::~AudioComponent()
 {
+    // iterate through the map of sounds and stop all of them
+    for (auto const& [key, val] : m_sounds)
+        val.sourceVoice->Stop();
 }
 
 void AudioComponent::LoadFile(const std::wstring filename, const std::string name, Sound& sound)
@@ -49,16 +52,4 @@ void AudioComponent::StopSound(const std::string name)
 
     if (FAILED(hr = m_sounds[name].sourceVoice->Stop()))
         Error::Message(hr, "Failed to stop Sound" + name);
-}
-
-void AudioComponent::StopSounds()
-{
-    HRESULT hr;
-
-    // iterate through the map of sounds and stop all of them
-    for (auto const& [key, val] : m_sounds)
-    {
-        if (FAILED(hr = val.sourceVoice->Stop()))
-            Error::Message(hr, "Failed to stop sound " + key);
-    }
 }
