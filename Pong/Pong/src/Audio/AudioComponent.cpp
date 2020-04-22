@@ -11,7 +11,7 @@ AudioComponent::~AudioComponent()
 {
 }
 
-void AudioComponent::LoadFile(const std::wstring filename, Sound& sound)
+void AudioComponent::LoadFile(const std::wstring filename, const std::string name, Sound& sound)
 {
     HRESULT hr;
     WAVEFORMATEX* waveFormat;
@@ -27,17 +27,19 @@ void AudioComponent::LoadFile(const std::wstring filename, Sound& sound)
     sound.audioBuffer.pAudioData = (BYTE* const)&sound.audioData[0];
     sound.audioBuffer.pContext = nullptr;
     sound.audioBuffer.Flags = XAUDIO2_END_OF_STREAM;
+
+    m_sounds[name] = sound;
 }
 
-void AudioComponent::PlaySound(const Sound& sound)
+void AudioComponent::PlaySound(const std::string name)
 {
     HRESULT hr;
 
     // submit audio buffer to source voice
-    if (FAILED(hr = sound.sourceVoice->SubmitSourceBuffer(&sound.audioBuffer)))
+    if(FAILED(hr = m_sounds[name].sourceVoice->SubmitSourceBuffer(&m_sounds[name].audioBuffer)))
         Error::Message(hr, "Failed to submit source buffer");
 
-    if (FAILED(hr = sound.sourceVoice->Start()))
+    if (FAILED(hr = m_sounds[name].sourceVoice->Start()))
         Error::Message(hr, "Failed to start Sound");
 }
 

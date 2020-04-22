@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Game.hpp"
 
-Game::Game(int width, int height)
+Game::Game(int width, int height, AudioComponent* audio)
     :
     m_gameWidth(width), m_gameHeight(height),
     m_bottomPaddle({ (float)width / 2, 10.0f }, PADDLE_SIZE),
@@ -9,6 +9,7 @@ Game::Game(int width, int height)
     m_square({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 }, SQUARE_SIZE)
 {
     m_square.SetStuck(true);
+    m_audio = audio;
 }
 
 void Game::HandleInput(unsigned char keycode, float delta)
@@ -25,7 +26,10 @@ void Game::HandleInput(unsigned char keycode, float delta)
 
     // if space is pressed, unstuck the ball
     if (keycode == VK_SPACE && m_square.IsStuck())
+    {
         m_square.SetStuck(false);
+        m_audio->PlaySound("test");
+    }
 }
 
 void Game::Update(float delta)
@@ -55,4 +59,6 @@ void Game::reset()
     m_topPaddle.SetPosition({ (float)m_gameWidth / 2, m_topPaddle.GetPosition().y });
     m_square.SetStuck(true);
     m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 });
+
+    m_audio->PlaySound("test");
 }

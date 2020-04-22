@@ -26,8 +26,11 @@ AudioEngine::AudioEngine()
 AudioEngine::~AudioEngine()
 {
     MFShutdown();
-    m_masteringVoice->DestroyVoice();
-    m_audioDevice->StopEngine();
+    if(m_masteringVoice)
+        m_masteringVoice->DestroyVoice();
+
+    if(m_audioDevice)
+        m_audioDevice->StopEngine();
 }
 
 void AudioEngine::loadFile(const std::wstring& filename, std::vector<BYTE>& audioData, WAVEFORMATEX** waveFormatEx, unsigned int& waveFormatLength)
