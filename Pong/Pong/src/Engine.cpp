@@ -38,7 +38,7 @@ void Engine::Update(float delta)
         if (keycode == VK_F2 && e.KeyUp() == true)
             m_vsync = !m_vsync;
 
-        m_game.HandleInput(keycode, delta);
+        m_game.HandleInput(keycode);
     }
 
     m_game.Update(delta);

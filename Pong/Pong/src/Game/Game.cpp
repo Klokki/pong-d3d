@@ -12,17 +12,17 @@ Game::Game(int width, int height, AudioComponent* audio)
     m_audio = audio;
 }
 
-void Game::HandleInput(unsigned char keycode, float delta)
+void Game::HandleInput(unsigned char keycode)
 {
     // move paddles except when touching the edges of the screen
     if (keycode == 0x41 && m_bottomPaddle.GetPosition().x > m_bottomPaddle.GetSize().x / 2)
-        m_bottomPaddle.Move({ -0.5f * delta, 0.f * delta });
+        m_bottomPaddle.SetVelocity({ -0.5f, 0.f });
     if (keycode == VK_LEFT && m_topPaddle.GetPosition().x > m_topPaddle.GetSize().x / 2)
-        m_topPaddle.Move({ -0.5f * delta, 0.f * delta });
+        m_topPaddle.SetVelocity({ -0.5f, 0.f });
     if (keycode == 0x44 && m_bottomPaddle.GetPosition().x < m_gameWidth - m_bottomPaddle.GetSize().x / 2)
-        m_bottomPaddle.Move({ 0.5f * delta, 0.f * delta });
+        m_bottomPaddle.SetVelocity({ 0.5f, 0.f });
     if (keycode == VK_RIGHT && m_topPaddle.GetPosition().x < m_gameWidth - m_topPaddle.GetSize().x / 2)
-        m_topPaddle.Move({ 0.5f * delta, 0.f * delta });
+        m_topPaddle.SetVelocity({ 0.5f, 0.f });
 
     // if space is pressed, unstuck the ball
     if (keycode == VK_SPACE && m_square.IsStuck())
@@ -52,6 +52,12 @@ void Game::Update(float delta)
         m_square.SetVelocity({ 0.f, -m_square.GetVelocity().y });
         m_audio->PlaySound("test");
     }
+
+    m_bottomPaddle.Update(delta);
+    m_topPaddle.Update(delta);
+
+    m_bottomPaddle.SetVelocity({ 0.f, 0.f });
+    m_topPaddle.SetVelocity({ 0.f, 0.f });
 }
 
 void Game::Render(Renderer& renderer)

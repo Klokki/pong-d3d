@@ -14,7 +14,7 @@ class Game
 {
 public:
     Game(int width, int height, AudioComponent* audio);
-    void HandleInput(unsigned char keycode, float delta);
+    void HandleInput(unsigned char keycode);
     void Update(float delta);
     void Render(Renderer& renderer);
 private:

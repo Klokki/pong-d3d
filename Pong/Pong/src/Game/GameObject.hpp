@@ -6,7 +6,6 @@ class GameObject
 {
 public:
     GameObject(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size);
-    void Move(DirectX::XMFLOAT2 value);
     void Update(float delta);
     void Render(Renderer& renderer);
 

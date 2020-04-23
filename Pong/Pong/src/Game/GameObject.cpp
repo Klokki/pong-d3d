@@ -8,12 +8,6 @@ GameObject::GameObject(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 {
 }
 
-void GameObject::Move(DirectX::XMFLOAT2 value)
-{
-    m_position.x += value.x;
-    m_position.y += value.y;
-}
-
 void GameObject::Update(float delta)
 {
     m_position.x += m_velocity.x * delta;
