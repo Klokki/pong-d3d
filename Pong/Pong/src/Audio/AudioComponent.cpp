@@ -44,7 +44,7 @@ void AudioComponent::PlaySound(const std::string name)
     HRESULT hr;
 
     // submit audio buffer to source voice
-    if(FAILED(hr = m_sounds[name].sourceVoice->SubmitSourceBuffer(&m_sounds[name].audioBuffer)))
+    if (FAILED(hr = m_sounds[name].sourceVoice->SubmitSourceBuffer(&m_sounds[name].audioBuffer)))
         Error::Message(hr, "Failed to submit source buffer");
 
     if (FAILED(hr = m_sounds[name].sourceVoice->Start()))

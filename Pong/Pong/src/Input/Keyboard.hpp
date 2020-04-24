@@ -8,7 +8,7 @@
 class Keyboard
 {
 public:
-    Keyboard(){}
+    Keyboard() {}
     void Update();
 
     const bool KeyBufferEmpty() { return m_keyBuffer.empty(); }

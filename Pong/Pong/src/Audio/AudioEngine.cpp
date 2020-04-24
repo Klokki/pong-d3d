@@ -27,10 +27,10 @@ AudioEngine::~AudioEngine()
 {
     MFShutdown();
 
-    if(m_masteringVoice)
+    if (m_masteringVoice)
         m_masteringVoice->DestroyVoice();
 
-    if(m_audioDevice)
+    if (m_audioDevice)
         m_audioDevice->StopEngine();
 }
 
@@ -43,7 +43,7 @@ void AudioEngine::loadFile(const std::wstring& filename, std::vector<BYTE>& audi
     // create source reader
     Microsoft::WRL::ComPtr<IMFSourceReader> sourceReader;
 
-    if(FAILED(hr = MFCreateSourceReaderFromURL(filename.c_str(), m_sourceReaderConfiguration.Get(), sourceReader.GetAddressOf())))
+    if (FAILED(hr = MFCreateSourceReaderFromURL(filename.c_str(), m_sourceReaderConfiguration.Get(), sourceReader.GetAddressOf())))
         Error::Message(hr, "Failed to create source reader from URL");
 
     // deselect all audio streams and select the first one
