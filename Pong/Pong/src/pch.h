@@ -17,12 +17,14 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include <DirectXCollision.h>
 
 // STL INCLUDES
 #include <string>
 #include <array>
 #include <queue>
 #include <vector>
+
 #include <map>
 #include <chrono>
 #include <algorithm>

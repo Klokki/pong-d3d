@@ -47,7 +47,7 @@ void Game::Update(float delta)
         reset();
 
     // on collision reverse ball direction
-    if (checkCollision(m_square, m_topPaddle) || checkCollision(m_square, m_bottomPaddle) && !m_square.IsStuck())
+    if (m_square.IsColliding(m_topPaddle) || m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
     {
         m_square.SetVelocity({ 0.f, -m_square.GetVelocity().y });
         m_audio->PlaySound("test");
@@ -78,14 +78,4 @@ void Game::reset()
     m_square.SetVelocity({ 0.f, 0.f });
 
     m_audio->PlaySound("test");
-}
-
-bool Game::checkCollision(GameObject& obj1, GameObject& obj2)
-{
-    // check if there is a collision on the X or Y axes
-    bool xAxis = obj1.GetPosition().x + obj1.GetSize().x >= obj2.GetPosition().x && obj2.GetPosition().x + obj2.GetSize().x >= obj1.GetPosition().x;
-    bool yAxis = obj1.GetPosition().y + obj1.GetSize().y >= obj2.GetPosition().y && obj2.GetPosition().y + obj2.GetSize().y >= obj1.GetPosition().y;
-
-    // return true if there is a collision on both axes
-    return xAxis && yAxis;
 }

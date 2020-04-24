@@ -19,9 +19,8 @@ public:
     void Render(Renderer& renderer);
 private:
     void reset();
-    bool checkCollision(GameObject& obj1, GameObject& obj2);
 
-    int m_gameWidth, m_gameHeight;
+    unsigned int m_gameWidth, m_gameHeight;
     GameObject m_bottomPaddle, m_topPaddle, m_square;
     AudioComponent* m_audio;
 };
