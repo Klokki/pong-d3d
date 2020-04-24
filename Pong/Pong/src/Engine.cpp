@@ -8,8 +8,10 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
     m_audio(),
     m_game(width, height, &m_audio)
 {
-    m_testSound = std::make_unique<Sound>();
-    m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\button.wav", "test", *m_testSound);
+    m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\bleep1.wav", "bleep1", *m_bleep1);
+    m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\bleep2.wav", "bleep2", *m_bleep2);
+    m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\bleep3.wav", "bleep3", *m_bleep3);
+    m_audio.LoadFile(L"D:\\dev\\Projects\\pong-d3d\\Pong\\Pong\\synth.wav", "synth", *m_synth);
 }
 
 Engine::~Engine()

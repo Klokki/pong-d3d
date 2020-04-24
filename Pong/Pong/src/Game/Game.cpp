@@ -30,7 +30,8 @@ void Game::HandleInput(unsigned char keycode)
         m_square.SetStuck(false);
         m_square.SetVelocity({ m_square.GetVelocity().x, 0.5f });
 
-        m_audio->PlaySound("test");
+        m_audio->PlaySound("bleep1");
+        m_audio->StopSound("synth");
     }
 }
 
@@ -70,7 +71,7 @@ void Game::reset()
     m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 });
     m_square.SetVelocity({ 0.f, 0.f });
 
-    m_audio->PlaySound("test");
+    m_audio->PlaySound("synth");
 }
 
 void Game::checkCollisions()
@@ -79,17 +80,17 @@ void Game::checkCollisions()
     if (m_square.IsColliding(m_topPaddle))
     {
         m_square.SetVelocity({ m_topPaddle.GetVelocity().x, -m_square.GetVelocity().y });
-        m_audio->PlaySound("test");
+        m_audio->PlaySound("bleep2");
     }
     else if (m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
     {
         m_square.SetVelocity({ m_bottomPaddle.GetVelocity().x, -m_square.GetVelocity().y });
-        m_audio->PlaySound("test");
+        m_audio->PlaySound("bleep2");
     }
 
     if (m_square.GetPosition().x <= 0.f || m_square.GetPosition().x >= m_gameWidth)
     {
         m_square.SetVelocity({ -m_square.GetVelocity().x, m_square.GetVelocity().y });
-        m_audio->PlaySound("test");
+        m_audio->PlaySound("bleep3");
     }
 }

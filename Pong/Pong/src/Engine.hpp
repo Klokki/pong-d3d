@@ -26,5 +26,6 @@ private:
     Renderer m_renderer;
     Game m_game;
     AudioComponent m_audio;
-    std::unique_ptr<Sound> m_testSound;
+    std::unique_ptr<Sound> m_bleep1 = std::make_unique<Sound>(), m_bleep2 = std::make_unique<Sound>(), m_bleep3 = std::make_unique<Sound>();
+    std::unique_ptr<Sound> m_synth = std::make_unique<Sound>();
 };
