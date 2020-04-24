@@ -2,6 +2,20 @@
 #include "Window.hpp"
 #include "Engine.hpp"
 
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+    case WM_CLOSE:
+    {
+        DestroyWindow(hwnd);
+        return 0;
+    }
+    }
+
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
 Window::Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
     :
     m_hInstance(hInstance),
@@ -13,7 +27,25 @@ Window::Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::
     m_window_title_wide = StringConverter::to_wstring(m_window_title);
     m_window_class_wide = StringConverter::to_wstring(m_window_class);
 
-    registerWindowClass();
+    // register window class
+    WNDCLASSEX wc;
+
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    wc.lpfnWndProc = WindowProc;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = m_hInstance;
+    wc.hIcon = NULL;
+    wc.hIconSm = NULL;
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = NULL;
+    wc.lpszMenuName = NULL;
+    wc.lpszClassName = m_window_class_wide.c_str();
+    wc.cbSize = sizeof(WNDCLASSEX);
+
+    HRESULT hr;
+    if (FAILED(hr = RegisterClassEx(&wc)))
+        Error::Message(hr, "Failed to register window class");
 
     // Center window on screen and adjust the window rectangle
     LONG posX = (GetSystemMetrics(SM_CXSCREEN) - m_width) / 2;
@@ -81,40 +113,4 @@ Window::~Window()
         UnregisterClass(this->m_window_class_wide.c_str(), this->m_hInstance);
         DestroyWindow(m_handle);
     }
-}
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
-    case WM_CLOSE:
-    {
-        DestroyWindow(hwnd);
-        return 0;
-    }
-    }
-
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
-
-void Window::registerWindowClass()
-{
-    WNDCLASSEX wc;
-
-    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    wc.lpfnWndProc = WindowProc;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
-    wc.hInstance = m_hInstance;
-    wc.hIcon = NULL;
-    wc.hIconSm = NULL;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = NULL;
-    wc.lpszMenuName = NULL;
-    wc.lpszClassName = m_window_class_wide.c_str();
-    wc.cbSize = sizeof(WNDCLASSEX);
-
-    HRESULT hr;
-    if (FAILED(hr = RegisterClassEx(&wc)))
-        Error::Message(hr, "Failed to register window class");
 }

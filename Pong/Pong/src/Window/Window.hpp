@@ -13,8 +13,6 @@ public:
     HWND GetHWND() const { return m_handle; }
     ~Window();
 private:
-    void registerWindowClass();
-
     HWND m_handle = NULL;
     HINSTANCE m_hInstance = NULL;
     std::string m_window_title = "";
