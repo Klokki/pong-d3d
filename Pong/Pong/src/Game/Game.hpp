@@ -20,6 +20,7 @@ public:
     void Render(Renderer& renderer);
 private:
     void reset();
+    void checkCollisions();
 
     unsigned int m_gameWidth, m_gameHeight;
     GameObject m_bottomPaddle, m_topPaddle, m_square;

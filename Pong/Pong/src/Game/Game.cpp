@@ -28,7 +28,7 @@ void Game::HandleInput(unsigned char keycode)
     if (keycode == VK_SPACE && m_square.IsStuck())
     {
         m_square.SetStuck(false);
-        m_square.SetVelocity({ 0.f, 0.3f });
+        m_square.SetVelocity({ m_square.GetVelocity().x, 0.5f });
 
         m_audio->PlaySound("test");
     }
@@ -43,19 +43,14 @@ void Game::Update(float delta)
     if (m_square.IsStuck())
         m_square.SetVelocity(m_bottomPaddle.GetVelocity());
 
-    m_square.Update(delta);
     m_bottomPaddle.Update(delta);
     m_topPaddle.Update(delta);
+    m_square.Update(delta);
 
     m_bottomPaddle.SetVelocity({ 0.f, 0.f });
     m_topPaddle.SetVelocity({ 0.f, 0.f });
 
-    // check collisions and on collision reverse ball direction
-    if (m_square.IsColliding(m_topPaddle) || m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
-    {
-        m_square.SetVelocity({ 0.f, -m_square.GetVelocity().y });
-        m_audio->PlaySound("test");
-    }
+    checkCollisions();
 }
 
 void Game::Render(Renderer& renderer)
@@ -76,4 +71,20 @@ void Game::reset()
     m_square.SetVelocity({ 0.f, 0.f });
 
     m_audio->PlaySound("test");
+}
+
+void Game::checkCollisions()
+{
+    // check collisions and on collision reverse ball direction
+    if (m_square.IsColliding(m_topPaddle) || m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
+    {
+        m_square.SetVelocity({ -m_square.GetVelocity().x, -m_square.GetVelocity().y });
+        m_audio->PlaySound("test");
+    }
+
+    if (m_square.GetPosition().x <= 0.f || m_square.GetPosition().x >= m_gameWidth)
+    {
+        m_square.SetVelocity({ -m_square.GetVelocity().x, m_square.GetVelocity().y });
+        m_audio->PlaySound("test");
+    }
 }
