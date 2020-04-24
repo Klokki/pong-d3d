@@ -47,10 +47,10 @@ void Game::Update(float delta)
     m_topPaddle.Update(delta);
     m_square.Update(delta);
 
+    checkCollisions();
+
     m_bottomPaddle.SetVelocity({ 0.f, 0.f });
     m_topPaddle.SetVelocity({ 0.f, 0.f });
-
-    checkCollisions();
 }
 
 void Game::Render(Renderer& renderer)
@@ -75,10 +75,15 @@ void Game::reset()
 
 void Game::checkCollisions()
 {
-    // check collisions and on collision reverse ball direction
-    if (m_square.IsColliding(m_topPaddle) || m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
+    // check collisions and on collision reverse ball direction maybe add the paddles to a vector and iterate through them but idgaf
+    if (m_square.IsColliding(m_topPaddle))
     {
-        m_square.SetVelocity({ -m_square.GetVelocity().x, -m_square.GetVelocity().y });
+        m_square.SetVelocity({ m_topPaddle.GetVelocity().x, -m_square.GetVelocity().y });
+        m_audio->PlaySound("test");
+    }
+    else if (m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
+    {
+        m_square.SetVelocity({ m_bottomPaddle.GetVelocity().x, -m_square.GetVelocity().y });
         m_audio->PlaySound("test");
     }
 
