@@ -36,28 +36,26 @@ void Game::HandleInput(unsigned char keycode)
 
 void Game::Update(float delta)
 {
-    // when "ball" is stuck, move with the paddle, when it's not, move normally
-    if (m_square.IsStuck())
-        m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_square.GetPosition().y });
-    else
-        m_square.Update(delta);
-
     // if the ball goes outside the playfield y axis, reset
     if (m_square.GetPosition().y > m_gameHeight || m_square.GetPosition().y < 0.f)
         reset();
 
-    // on collision reverse ball direction
-    if (m_square.IsColliding(m_topPaddle) || m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
-    {
-        m_square.SetVelocity({ 0.f, -m_square.GetVelocity().y });
-        m_audio->PlaySound("test");
-    }
+    if (m_square.IsStuck())
+        m_square.SetVelocity(m_bottomPaddle.GetVelocity());
 
+    m_square.Update(delta);
     m_bottomPaddle.Update(delta);
     m_topPaddle.Update(delta);
 
     m_bottomPaddle.SetVelocity({ 0.f, 0.f });
     m_topPaddle.SetVelocity({ 0.f, 0.f });
+
+    // check collisions and on collision reverse ball direction
+    if (m_square.IsColliding(m_topPaddle) || m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
+    {
+        m_square.SetVelocity({ 0.f, -m_square.GetVelocity().y });
+        m_audio->PlaySound("test");
+    }
 }
 
 void Game::Render(Renderer& renderer)
