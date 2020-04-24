@@ -233,7 +233,6 @@
     <Media Include="bleep1.wav" />
     <Media Include="bleep2.wav" />
     <Media Include="bleep3.wav" />
-    <Media Include="synth.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,7 +31,6 @@ void Game::HandleInput(unsigned char keycode)
         m_square.SetVelocity({ m_square.GetVelocity().x, 0.5f });
 
         m_audio->PlaySound("bleep1");
-        m_audio->StopSound("synth");
     }
 }
 
@@ -71,7 +70,7 @@ void Game::reset()
     m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 });
     m_square.SetVelocity({ 0.f, 0.f });
 
-    m_audio->PlaySound("synth");
+    m_audio->PlaySound("bleep1");
 }
 
 void Game::checkCollisions()
