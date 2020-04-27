@@ -30,7 +30,6 @@ void AudioComponent::LoadFile(const std::wstring filename, const std::string nam
     if (FAILED(hr = m_audioEngine.m_audioDevice->CreateSourceVoice(&sound.sourceVoice, &sound.waveFormat)))
         Error::Message(hr, "Failed to create source voice");
 
-    ZeroMemory(&sound.audioBuffer, sizeof(XAUDIO2_BUFFER));
     sound.audioBuffer.AudioBytes = (UINT32)sound.audioData.size();
     sound.audioBuffer.pAudioData = (BYTE* const)&sound.audioData[0];
     sound.audioBuffer.pContext = nullptr;

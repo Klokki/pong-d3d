@@ -64,15 +64,9 @@ void Renderer::ToggleFillMode()
 
     // toggle rasterizer fill mode
     if (m_rasterizerDescription.FillMode == D3D11_FILL_MODE::D3D11_FILL_SOLID)
-    {
-        ZeroMemory(&m_rasterizerDescription, sizeof(D3D11_RASTERIZER_DESC));
         m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
-    }
     else
-    {
-        ZeroMemory(&m_rasterizerDescription, sizeof(D3D11_RASTERIZER_DESC));
         m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-    }
 
     m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
 
@@ -87,8 +81,7 @@ void Renderer::initializeD3D(HWND hwnd)
     if (adapters.size() < 1)
         Error::Message("No DXGI adapters found");
 
-    DXGI_SWAP_CHAIN_DESC swapChainDesc;
-    ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
+    DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 
     swapChainDesc.BufferDesc.Width = m_width;
     swapChainDesc.BufferDesc.Height = m_height;
@@ -156,8 +149,7 @@ void Renderer::initializeD3D(HWND hwnd)
         Error::Message(hr, "Failed to create depth stencil view");
 
     // rasterizer (viewport)
-    D3D11_VIEWPORT viewport;
-    ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+    D3D11_VIEWPORT viewport = {};
 
     viewport.TopLeftX = 0;
     viewport.TopLeftY = 0;
@@ -169,8 +161,6 @@ void Renderer::initializeD3D(HWND hwnd)
     m_deviceContext->RSSetViewports(1, &viewport);
 
     // rasterizer state
-    ZeroMemory(&m_rasterizerDescription, sizeof(D3D11_RASTERIZER_DESC));
-
     m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
     m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
 
@@ -213,8 +203,7 @@ void Renderer::initializeRenderData()
 
     UINT vertexSize = sizeof(Vertex); // avoid warning C6260 (sizeof * sizeof)
 
-    D3D11_BUFFER_DESC vertexBufferDesc;
-    ZeroMemory(&vertexBufferDesc, sizeof(D3D11_BUFFER_DESC));
+    D3D11_BUFFER_DESC vertexBufferDesc = {};
 
     vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
     vertexBufferDesc.ByteWidth = vertexSize * ARRAYSIZE(vertices);
@@ -222,8 +211,7 @@ void Renderer::initializeRenderData()
     vertexBufferDesc.CPUAccessFlags = 0;
     vertexBufferDesc.MiscFlags = 0;
 
-    D3D11_SUBRESOURCE_DATA vertexBufferData;
-    ZeroMemory(&vertexBufferData, sizeof(D3D11_SUBRESOURCE_DATA));
+    D3D11_SUBRESOURCE_DATA vertexBufferData = {};
 
     vertexBufferData.pSysMem = vertices;
 
@@ -233,8 +221,7 @@ void Renderer::initializeRenderData()
         Error::Message(hr, "Failed to create vertex buffer");
 
     // index buffer
-    D3D11_BUFFER_DESC indexBufferDescription;
-    ZeroMemory(&indexBufferDescription, sizeof(D3D11_BUFFER_DESC));
+    D3D11_BUFFER_DESC indexBufferDescription = {};
 
     int dwordSize = sizeof(DWORD); // avoid warning C6260 (sizeof * sizeof)
 
@@ -251,8 +238,7 @@ void Renderer::initializeRenderData()
         Error::Message(hr, "Failed to create index buffer");
 
     // constant buffer
-    D3D11_BUFFER_DESC cBufferDescription;
-    ZeroMemory(&cBufferDescription, sizeof(D3D11_BUFFER_DESC));
+    D3D11_BUFFER_DESC cBufferDescription = {};
 
     cBufferDescription.Usage = D3D11_USAGE_DYNAMIC;
     cBufferDescription.BindFlags = D3D11_BIND_CONSTANT_BUFFER;

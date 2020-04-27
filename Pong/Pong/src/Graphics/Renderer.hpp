@@ -43,5 +43,5 @@ private:
     PixelShader m_pixelShader;
     CB_VS m_constantBufferData;
 
-    D3D11_RASTERIZER_DESC m_rasterizerDescription;
+    D3D11_RASTERIZER_DESC m_rasterizerDescription = {};
 };

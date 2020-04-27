@@ -83,8 +83,7 @@ Window::Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::
 
 bool Window::ProcessMessages()
 {
-    MSG msg;
-    ZeroMemory(&msg, sizeof(MSG));
+    MSG msg = {};
 
     while (PeekMessage(&msg, m_handle, 0, 0, PM_REMOVE))
     {
