@@ -9,11 +9,11 @@ public:
     void Update(float delta);
     void Render(Renderer& renderer);
 
-    bool IsStuck() { return m_stuck; }
-    DirectX::XMFLOAT2 GetPosition() { return m_position; }
-    DirectX::XMFLOAT2 GetSize() { return m_size; }
-    DirectX::XMFLOAT2 GetVelocity() { return m_velocity; }
-    bool IsColliding(GameObject& object) { return m_boundingBox.Contains(object.m_boundingBox); }
+    bool IsStuck() const { return m_stuck; }
+    DirectX::XMFLOAT2 GetPosition() const { return m_position; }
+    DirectX::XMFLOAT2 GetSize() const { return m_size; }
+    DirectX::XMFLOAT2 GetVelocity() const { return m_velocity; }
+    bool IsColliding(GameObject& object) const { return m_boundingBox.Contains(object.m_boundingBox); }
 
     void SetPosition(DirectX::XMFLOAT2 position) { m_position = position; }
     void SetStuck(bool value) { m_stuck = value; }
