@@ -5,39 +5,39 @@ std::vector<AdapterData> Adapters::m_adapters;
 
 std::vector<AdapterData> Adapters::Get()
 {
-    // if adapters have already been retrieved, return m_adapters
-    if (m_adapters.size() > 0)
-        return m_adapters;
+	// if adapters have already been retrieved, return m_adapters
+	if (m_adapters.size() > 0)
+		return m_adapters;
 
-    Microsoft::WRL::ComPtr<IDXGIFactory> p_factory;
+	Microsoft::WRL::ComPtr<IDXGIFactory> p_factory;
 
-    HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory),
-        reinterpret_cast<void**>(p_factory.GetAddressOf()));
-    if (FAILED(hr))
-    {
-        Error::Message(hr, "Failed to create DXGIFactory for enumerating adapters");
-        exit(EXIT_FAILURE);
-    }
+	HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory),
+		reinterpret_cast<void**>(p_factory.GetAddressOf()));
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Failed to create DXGIFactory for enumerating adapters");
+		exit(EXIT_FAILURE);
+	}
 
-    IDXGIAdapter* p_adapter;
-    UINT i = 0;
+	IDXGIAdapter* p_adapter;
+	UINT i = 0;
 
-    // add the data of the adapter to m_adapters vector
-    while (SUCCEEDED(p_factory->EnumAdapters(i, &p_adapter)))
-    {
-        m_adapters.push_back(AdapterData(p_adapter));
-        ++i;
-    }
+	// add the data of the adapter to m_adapters vector
+	while (SUCCEEDED(p_factory->EnumAdapters(i, &p_adapter)))
+	{
+		m_adapters.push_back(AdapterData(p_adapter));
+		++i;
+	}
 
-    return m_adapters;
+	return m_adapters;
 }
 
 AdapterData::AdapterData(IDXGIAdapter* adapter)
 {
-    p_adapter = adapter;
-    HRESULT hr = p_adapter->GetDesc(&m_description);
-    if (FAILED(hr))
-    {
-        Error::Message(hr, "Failed to Get Description for IDXGIAdapter.");
-    }
+	p_adapter = adapter;
+	HRESULT hr = p_adapter->GetDesc(&m_description);
+	if (FAILED(hr))
+	{
+		Error::Message(hr, "Failed to Get Description for IDXGIAdapter.");
+	}
 }

@@ -8,9 +8,9 @@
 class StringConverter
 {
 public:
-    static std::wstring to_wstring(std::string str)
-    {
-        std::wstring wide_string(str.begin(), str.end());
-        return wide_string;
-    }
+	static std::wstring to_wstring(std::string str)
+	{
+		std::wstring wide_string(str.begin(), str.end());
+		return wide_string;
+	}
 };

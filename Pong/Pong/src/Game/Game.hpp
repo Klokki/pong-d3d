@@ -14,15 +14,15 @@ constexpr float PADDLE_OFFSET = 10.f;
 class Game
 {
 public:
-    Game(int width, int height, AudioComponent* audio);
-    void HandleInput(unsigned char keycode);
-    void Update(float delta);
-    void Render(Renderer& renderer);
+	Game(int width, int height, AudioComponent* audio);
+	void HandleInput(unsigned char keycode);
+	void Update(float delta);
+	void Render(Renderer& renderer);
 private:
-    void reset();
-    void checkCollisions();
+	void reset();
+	void checkCollisions();
 
-    unsigned int m_gameWidth, m_gameHeight;
-    GameObject m_bottomPaddle, m_topPaddle, m_square;
-    AudioComponent* m_audio;
+	unsigned int m_gameWidth, m_gameHeight;
+	GameObject m_bottomPaddle, m_topPaddle, m_square;
+	AudioComponent* m_audio;
 };
