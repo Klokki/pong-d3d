@@ -14,17 +14,16 @@ void Renderer::BeginRender()
 {
 	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
-	m_deviceContext->ClearDepthStencilView(m_depthStencilView.Get(),
-		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	m_deviceContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 {
-	// set input layout and shaders to context
+	// set input layout, depth stencil and shaders to context
 	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
 	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_deviceContext->RSSetState(m_rasterizerState.Get());
-
+	m_deviceContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
 	m_deviceContext->VSSetShader(m_vertexShader.GetShader(), NULL, 0);
 	m_deviceContext->PSSetShader(m_pixelShader.GetShader(), NULL, 0);
 
@@ -67,8 +66,6 @@ void Renderer::ToggleFillMode()
 		m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
 	else
 		m_rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-
-	m_rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
 
 	if (FAILED(hr = m_device->CreateRasterizerState(&m_rasterizerDescription, m_rasterizerState.GetAddressOf())))
 		Error::Message(hr, "Could not switch rasterizer state");
@@ -126,27 +123,36 @@ void Renderer::initializeD3D(HWND hwnd)
 	if (FAILED(hr = m_device->CreateRenderTargetView(backBuffer.Get(), NULL, m_renderTargetView.GetAddressOf())))
 		Error::Message(hr, "Failed to create render target view");
 
-	// Output merger
-	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+	// create depth stencil view
+	D3D11_TEXTURE2D_DESC depthStencilViewDescription = {};
+	depthStencilViewDescription.Width = m_width;
+	depthStencilViewDescription.Height = m_height;
+	depthStencilViewDescription.MipLevels = 1;
+	depthStencilViewDescription.ArraySize = 1;
+	depthStencilViewDescription.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDescription.SampleDesc.Count = 1;
+	depthStencilViewDescription.SampleDesc.Quality = 0;
+	depthStencilViewDescription.Usage = D3D11_USAGE_DEFAULT;
+	depthStencilViewDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthStencilViewDescription.CPUAccessFlags = 0;
+	depthStencilViewDescription.MiscFlags = 0;
 
-	D3D11_TEXTURE2D_DESC depthStencilDescription;
-	depthStencilDescription.Width = m_width;
-	depthStencilDescription.Height = m_height;
-	depthStencilDescription.MipLevels = 1;
-	depthStencilDescription.ArraySize = 1;
-	depthStencilDescription.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	depthStencilDescription.SampleDesc.Count = 1;
-	depthStencilDescription.SampleDesc.Quality = 0;
-	depthStencilDescription.Usage = D3D11_USAGE_DEFAULT;
-	depthStencilDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	depthStencilDescription.CPUAccessFlags = 0;
-	depthStencilDescription.MiscFlags = 0;
-
-	if (FAILED(hr = m_device->CreateTexture2D(&depthStencilDescription, NULL, m_depthStencilBuffer.GetAddressOf())))
+	if (FAILED(hr = m_device->CreateTexture2D(&depthStencilViewDescription, NULL, m_depthStencilBuffer.GetAddressOf())))
 		Error::Message(hr, "Failed to create depth stencil buffer");
 
 	if (FAILED(hr = m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), NULL, m_depthStencilView.GetAddressOf())))
 		Error::Message(hr, "Failed to create depth stencil view");
+
+	m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+
+	// create depth stencil state
+	D3D11_DEPTH_STENCIL_DESC depthStencilStateDescription = {};
+	depthStencilStateDescription.DepthEnable = true;
+	depthStencilStateDescription.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilStateDescription.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
+
+	if (FAILED(hr = m_device->CreateDepthStencilState(&depthStencilStateDescription, m_depthStencilState.GetAddressOf())))
+		Error::Message(hr, "Failed to create depth stencil state");
 
 	// rasterizer (viewport)
 	D3D11_VIEWPORT viewport = {};
@@ -172,7 +178,7 @@ void Renderer::initializeShaders()
 {
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
-		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{"COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
@@ -189,10 +195,10 @@ void Renderer::initializeRenderData()
 {
 	Vertex vertices[] =
 	{
-		Vertex(-0.5f, -0.5f, 1.0f, 1.0f, 1.0f), // Bottom left
-		Vertex(-0.5f, 0.5f, 1.0f, 1.0f, 1.0f), // Top left
-		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 1.0f), // Top right
-		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f), // Bottom right
+		Vertex(-0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f), // Bottom left
+		Vertex(-0.5f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f), // Top left
+		Vertex(0.5f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f), // Top right
+		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f), // Bottom right
 	};
 
 	DWORD indices[] =

@@ -15,9 +15,7 @@ void VertexShader::Initialize(Microsoft::WRL::ComPtr<ID3D11Device>& device, std:
 	}
 
 	// create vertex shader
-	if (FAILED(hr = device->CreateVertexShader(m_vertexShaderBuffer->GetBufferPointer(),
-		m_vertexShaderBuffer->GetBufferSize(), NULL,
-		m_vertexShader.GetAddressOf())))
+	if (FAILED(hr = device->CreateVertexShader(m_vertexShaderBuffer->GetBufferPointer(), m_vertexShaderBuffer->GetBufferSize(), NULL, m_vertexShader.GetAddressOf())))
 	{
 		std::wstring errorMsg = L"Failed to create vertex shader: ";
 		errorMsg += filepath;
@@ -25,10 +23,7 @@ void VertexShader::Initialize(Microsoft::WRL::ComPtr<ID3D11Device>& device, std:
 	}
 
 	// create inputlayout
-	if (FAILED(hr = device->CreateInputLayout(description, numElements,
-		m_vertexShaderBuffer->GetBufferPointer(),
-		m_vertexShaderBuffer->GetBufferSize(),
-		m_inputLayout.GetAddressOf())))
+	if (FAILED(hr = device->CreateInputLayout(description, numElements, m_vertexShaderBuffer->GetBufferPointer(), m_vertexShaderBuffer->GetBufferSize(), m_inputLayout.GetAddressOf())))
 	{
 		Error::Message(hr, "Could not create input layout");
 	}
@@ -47,9 +42,7 @@ void PixelShader::Initialize(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::
 	}
 
 	// create pixel shader
-	if (FAILED(hr = device->CreatePixelShader(m_pixelShaderBuffer.Get()->GetBufferPointer(),
-		m_pixelShaderBuffer.Get()->GetBufferSize(), NULL,
-		m_pixelShader.GetAddressOf())))
+	if (FAILED(hr = device->CreatePixelShader(m_pixelShaderBuffer.Get()->GetBufferPointer(), m_pixelShaderBuffer.Get()->GetBufferSize(), NULL, m_pixelShader.GetAddressOf())))
 	{
 		std::wstring errorMsg = L"Failed to create pixel shader: ";
 		errorMsg += filepath;
