@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Engine.hpp"
+#include "Utility/OutputPath.hpp"
 
 Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 	:
@@ -8,9 +9,11 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 	m_audio(),
 	m_game(width, height, &m_audio)
 {
-	m_audio.LoadFile(L"bleep1.wav", "bleep1", *m_bleep1);
-	m_audio.LoadFile(L"bleep2.wav", "bleep2", *m_bleep2);
-	m_audio.LoadFile(L"bleep3.wav", "bleep3", *m_bleep3);
+	std::wstring outputPath = OutputPath::get_path();
+
+	m_audio.LoadFile(outputPath + L"\\..\\audio\\bleep1.wav", "bleep1", *m_bleep1);
+	m_audio.LoadFile(outputPath + L"\\..\\audio\\bleep2.wav", "bleep2", *m_bleep2);
+	m_audio.LoadFile(outputPath + L"\\..\\audio\\bleep3.wav", "bleep3", *m_bleep3);
 }
 
 Engine::~Engine()

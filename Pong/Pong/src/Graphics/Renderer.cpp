@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Renderer.hpp"
+#include "Utility/OutputPath.hpp"
 
 Renderer::Renderer(HWND hwnd, int width, int height)
 	:
@@ -186,7 +187,7 @@ void Renderer::initializeShaders()
 
 	UINT numElements = ARRAYSIZE(layout);
 
-	std::wstring outputPath = getOutputPath();
+	std::wstring outputPath = OutputPath::get_path();
 
 	// init shaders
 	m_vertexShader.Initialize(m_device, outputPath + L"\\Vertex.cso", layout, numElements);
@@ -263,13 +264,4 @@ void Renderer::initializeRenderData()
 
 	m_constantBufferData.projection = projection;
 	m_constantBufferData.projection = DirectX::XMMatrixTranspose(m_constantBufferData.projection);
-}
-
-std::wstring Renderer::getOutputPath()
-{
-	// returns output directory
-	WCHAR path[MAX_PATH];
-	GetModuleFileNameW(NULL, path, MAX_PATH);
-	PathCchRemoveFileSpec(path, sizeof(path));
-	return (std::wstring)path;
 }

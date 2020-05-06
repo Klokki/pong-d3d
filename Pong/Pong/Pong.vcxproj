@@ -204,6 +204,7 @@
     <ClInclude Include="src\Input\KeyboardEvent.hpp" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Utility\Error.hpp" />
+    <ClInclude Include="src\Utility\OutputPath.hpp" />
     <ClInclude Include="src\Utility\StringConverter.hpp" />
     <ClInclude Include="src\Window\Window.hpp" />
   </ItemGroup>
@@ -228,11 +229,6 @@
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="bleep1.wav" />
-    <Media Include="bleep2.wav" />
-    <Media Include="bleep3.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

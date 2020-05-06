@@ -19,8 +19,6 @@ private:
 	void initializeShaders();
 	void initializeRenderData();
 
-	std::wstring getOutputPath();
-
 	int m_width, m_height;
 
 	Microsoft::WRL::ComPtr<ID3D11Device> m_device;
