@@ -11,7 +11,7 @@ class Renderer {
 public:
 	Renderer(HWND hwnd, int width, int height);
 	void BeginRender();
-	void Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size);
+	void Render(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 size);
 	void EndRender(bool vsync);
 	void ToggleFillMode();
 private:

@@ -17,7 +17,7 @@ void Renderer::BeginRender()
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
-void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
+void Renderer::Render(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 size)
 {
 	// set input layout, depth stencil and shaders to context
 	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
@@ -31,7 +31,7 @@ void Renderer::Render(DirectX::XMFLOAT2 position, DirectX::XMFLOAT2 size)
 	UINT offset = 0;
 
 	// update constant buffer
-	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(position.x, position.y, 0.0f);
+	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(position.x, position.y, position.z);
 	DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationZ(0.0f);
 	DirectX::XMMATRIX scaling = DirectX::XMMatrixScaling(1.0f * size.x, 1.0f * size.y, 1.0f);
 

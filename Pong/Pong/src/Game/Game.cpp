@@ -4,9 +4,9 @@
 Game::Game(int width, int height, AudioComponent* audio)
 	:
 	m_gameWidth(width), m_gameHeight(height),
-	m_bottomPaddle({ (float)width / 2, PADDLE_OFFSET }, PADDLE_SIZE),
-	m_topPaddle({ (float)width / 2, (float)height - PADDLE_OFFSET }, PADDLE_SIZE),
-	m_square({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 }, SQUARE_SIZE)
+	m_bottomPaddle({ (float)width / 2, PADDLE_OFFSET, 1.f }, PADDLE_SIZE),
+	m_topPaddle({ (float)width / 2, (float)height - PADDLE_OFFSET, 1.f }, PADDLE_SIZE),
+	m_square({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2, 1.f }, SQUARE_SIZE)
 {
 	m_square.SetStuck(true);
 	m_audio = audio;
@@ -63,11 +63,11 @@ void Game::Render(Renderer& renderer)
 void Game::reset()
 {
 	// reset playfield to original positions
-	m_bottomPaddle.SetPosition({ (float)m_gameWidth / 2, m_bottomPaddle.GetPosition().y });
-	m_topPaddle.SetPosition({ (float)m_gameWidth / 2, m_topPaddle.GetPosition().y });
+	m_bottomPaddle.SetPosition({ (float)m_gameWidth / 2, m_bottomPaddle.GetPosition().y, m_bottomPaddle.GetPosition().x });
+	m_topPaddle.SetPosition({ (float)m_gameWidth / 2, m_topPaddle.GetPosition().y, m_topPaddle.GetPosition().x });
 
 	m_square.SetStuck(true);
-	m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2 });
+	m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2, m_square.GetPosition().z });
 	m_square.SetVelocity({ 0.f, 0.f });
 
 	m_audio->StopSounds(); // stop sounds to alleviate some problems with buggy audio
