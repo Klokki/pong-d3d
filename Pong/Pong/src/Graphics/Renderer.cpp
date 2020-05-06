@@ -17,7 +17,7 @@ void Renderer::BeginRender()
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
-void Renderer::Render(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 size)
+void Renderer::Render(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 color, DirectX::XMFLOAT2 size)
 {
 	// set input layout, depth stencil and shaders to context
 	m_deviceContext->IASetInputLayout(m_vertexShader.GetInputLayout());
@@ -38,10 +38,12 @@ void Renderer::Render(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 size)
 	m_constantBufferData.move = scaling * rotation * translation;
 	m_constantBufferData.move = DirectX::XMMatrixTranspose(m_constantBufferData.move);
 
+	m_constantBufferData.color = color;
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 
 	m_deviceContext->Map(m_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	CopyMemory(mappedResource.pData, &m_constantBufferData, sizeof(CB_VS));
+	CopyMemory(mappedResource.pData, &m_constantBufferData, sizeof(ConstantBuffer_Vertex));
 	m_deviceContext->Unmap(m_constantBuffer.Get(), 0);
 
 	m_deviceContext->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
@@ -250,7 +252,7 @@ void Renderer::initializeRenderData()
 	cBufferDescription.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cBufferDescription.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	cBufferDescription.MiscFlags = 0;
-	cBufferDescription.ByteWidth = static_cast<UINT>(sizeof(CB_VS) + (16 - (sizeof(CB_VS) % 16)));
+	cBufferDescription.ByteWidth = static_cast<UINT>(sizeof(ConstantBuffer_Vertex) + (16 - (sizeof(ConstantBuffer_Vertex) % 16)));
 	cBufferDescription.StructureByteStride = 0;
 
 	if (FAILED(hr = m_device->CreateBuffer(&cBufferDescription, 0, m_constantBuffer.GetAddressOf())))

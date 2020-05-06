@@ -11,7 +11,7 @@ class Renderer {
 public:
 	Renderer(HWND hwnd, int width, int height);
 	void BeginRender();
-	void Render(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 size);
+	void Render(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 color, DirectX::XMFLOAT2 size);
 	void EndRender(bool vsync);
 	void ToggleFillMode();
 private:
@@ -42,7 +42,7 @@ private:
 
 	VertexShader m_vertexShader;
 	PixelShader m_pixelShader;
-	CB_VS m_constantBufferData;
+	ConstantBuffer_Vertex m_constantBufferData;
 
 	D3D11_RASTERIZER_DESC m_rasterizerDescription = {};
 };

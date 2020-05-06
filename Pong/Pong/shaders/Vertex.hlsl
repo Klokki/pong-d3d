@@ -1,7 +1,8 @@
-cbuffer positionCBuffer : register(b0)
+cbuffer constantBuffer : register(b0)
 {
 	float4x4 move;
 	float4x4 projection;
+	float3 color;
 }
 
 struct VS_INPUT
@@ -20,7 +21,11 @@ VS_OUTPUT main(VS_INPUT input)
 {
 	VS_OUTPUT output;
 
+	// set position
 	output.outPosition = mul(float4(input.inPos, 1.0f), mul(move, projection));
-	output.outColor = input.inColor;
+
+	// set color
+	output.outColor = input.inColor * color;
+
 	return output;
 }

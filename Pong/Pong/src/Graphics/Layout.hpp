@@ -3,10 +3,11 @@
 #include "pch.h"
 
 // vertex shader constant buffer
-struct CB_VS
+struct ConstantBuffer_Vertex
 {
 	DirectX::XMMATRIX move;
 	DirectX::XMMATRIX projection;
+	DirectX::XMFLOAT3 color;
 };
 
 // vertex buffer layout

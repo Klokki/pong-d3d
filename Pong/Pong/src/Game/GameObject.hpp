@@ -6,6 +6,8 @@ class GameObject
 {
 public:
 	GameObject(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 size);
+	GameObject(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 color, DirectX::XMFLOAT2 size);
+
 	void Update(float delta);
 	void Render(Renderer& renderer);
 
@@ -19,6 +21,7 @@ public:
 	void SetStuck(bool value) { m_stuck = value; }
 	void SetVelocity(DirectX::XMFLOAT2 value) { m_velocity = value; }
 private:
+	DirectX::XMFLOAT3 m_color = { 1.f, 1.f, 1.f };
 	DirectX::XMFLOAT3 m_position;
 	DirectX::XMFLOAT2 m_size;
 	DirectX::XMFLOAT2 m_velocity = { 0.f, 0.f };
