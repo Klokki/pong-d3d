@@ -4,9 +4,9 @@
 Game::Game(int width, int height, AudioComponent* audio)
 	:
 	m_gameWidth(width), m_gameHeight(height),
-	m_bottomPaddle({ (float)width / 2, PADDLE_OFFSET, 1.f }, PADDLE_SIZE),
-	m_topPaddle({ (float)width / 2, (float)height - PADDLE_OFFSET, 1.f }, PADDLE_SIZE),
-	m_square({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2, 1.f }, { 0.5f, 1.f, 0.f }, SQUARE_SIZE)
+	m_bottomPaddle({ (float)width / 2, PADDLE_OFFSET, 0.f }, PADDLE_SIZE),
+	m_topPaddle({ (float)width / 2, (float)height - PADDLE_OFFSET, 0.f }, PADDLE_SIZE),
+	m_square({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y - SQUARE_SIZE.y / 2, 0.f }, { 0.5f, 1.f, 0.f }, SQUARE_SIZE)
 {
 	m_square.SetStuck(true);
 	m_audio = audio;
@@ -89,6 +89,7 @@ void Game::checkCollisions()
 		m_audio->PlaySound("bleep2");
 	}
 
+	// window edge collisions
 	if (m_square.GetPosition().x <= 0.f || m_square.GetPosition().x >= m_gameWidth)
 	{
 		m_square.SetVelocity({ -m_square.GetVelocity().x, m_square.GetVelocity().y });
