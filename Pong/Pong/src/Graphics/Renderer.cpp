@@ -190,8 +190,8 @@ void Renderer::initializeShaders()
 	std::wstring outputPath = OutputPath::get_path();
 
 	// init shaders
-	m_vertexShader.Initialize(m_device, outputPath + L"\\Vertex.cso", layout, numElements);
-	m_pixelShader.Initialize(m_device, outputPath + L"\\Pixel.cso");
+	m_vertexShader.Initialize(m_device, outputPath + L"\\shaders\\Vertex.cso", layout, numElements);
+	m_pixelShader.Initialize(m_device, outputPath + L"\\shaders\\Pixel.cso");
 }
 
 void Renderer::initializeRenderData()

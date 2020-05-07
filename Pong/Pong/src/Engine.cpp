@@ -11,9 +11,9 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 {
 	std::wstring outputPath = OutputPath::get_path();
 
-	m_audio.LoadFile(outputPath + L"\\..\\audio\\bleep1.wav", "bleep1", *m_bleep1);
-	m_audio.LoadFile(outputPath + L"\\..\\audio\\bleep2.wav", "bleep2", *m_bleep2);
-	m_audio.LoadFile(outputPath + L"\\..\\audio\\bleep3.wav", "bleep3", *m_bleep3);
+	m_audio.LoadFile(outputPath + L"\\audio\\bleep1.wav", "bleep1", *m_bleep1);
+	m_audio.LoadFile(outputPath + L"\\audio\\bleep2.wav", "bleep2", *m_bleep2);
+	m_audio.LoadFile(outputPath + L"\\audio\\bleep3.wav", "bleep3", *m_bleep3);
 }
 
 Engine::~Engine()

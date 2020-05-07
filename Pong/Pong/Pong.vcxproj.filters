@@ -109,4 +109,15 @@
     <FxCompile Include="shaders\Vertex.hlsl" />
     <FxCompile Include="shaders\Pixel.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="resources\audio\bleep1.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="resources\audio\bleep2.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="resources\audio\bleep3.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

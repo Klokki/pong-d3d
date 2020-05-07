@@ -127,7 +127,12 @@
     </Link>
     <FxCompile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <ObjectFileOutput>$(OutDir)shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>if not exist $(OutDir)audio\ mkdir $(OutDir)audio\
+copy $(ProjectDir)resources\audio\ $(OutDir)audio\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -169,6 +174,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;DXGI.lib;d3dcompiler.lib;pathcch.lib;mfreadwrite.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <FxCompile>
+      <ObjectFileOutput>$(OutDir)shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <PostBuildEvent>
+      <Command>if not exist $(OutDir)audio\ mkdir $(OutDir)audio\
+copy $(ProjectDir)resources\audio\ $(OutDir)audio\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\AudioComponent.cpp" />
@@ -229,6 +241,11 @@
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="resources\audio\bleep1.wav" />
+    <Media Include="resources\audio\bleep2.wav" />
+    <Media Include="resources\audio\bleep3.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
