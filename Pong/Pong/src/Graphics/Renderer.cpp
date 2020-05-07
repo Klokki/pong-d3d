@@ -13,7 +13,7 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 
 void Renderer::BeginRender()
 {
-	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float bgcolor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView.Get(), bgcolor);
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
@@ -179,7 +179,7 @@ void Renderer::initializeD3D(HWND hwnd)
 
 void Renderer::initializeShaders()
 {
-	D3D11_INPUT_ELEMENT_DESC layout[] =
+	D3D11_INPUT_ELEMENT_DESC layout[2] =
 	{
 		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{"COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0}
@@ -196,7 +196,7 @@ void Renderer::initializeShaders()
 
 void Renderer::initializeRenderData()
 {
-	Vertex vertices[] =
+	Vertex vertices[4] =
 	{
 		Vertex(-0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f), // Bottom left
 		Vertex(-0.5f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f), // Top left
@@ -204,7 +204,7 @@ void Renderer::initializeRenderData()
 		Vertex(0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f), // Bottom right
 	};
 
-	DWORD indices[] =
+	DWORD indices[6] =
 	{
 		0, 1, 2,
 		0, 2, 3
