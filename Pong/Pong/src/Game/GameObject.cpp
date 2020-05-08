@@ -5,7 +5,7 @@ GameObject::GameObject(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 size)
 	:
 	m_position(position),
 	m_size(size),
-	m_boundingBox({ m_position.x, m_position.y, 1.f }, { m_size.x / 2, m_size.y / 2, 1.f })
+	m_boundingBox({ m_position.x, m_position.y, 1.f }, { m_size.x, m_size.y, 1.f })
 {
 }
 

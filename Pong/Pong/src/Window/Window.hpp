@@ -9,9 +9,9 @@ class Window
 {
 public:
 	Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
+	~Window();
 	bool ProcessMessages();
 	HWND GetHWND() const { return m_handle; }
-	~Window();
 private:
 	HWND m_handle = NULL;
 	HINSTANCE m_hInstance = NULL;

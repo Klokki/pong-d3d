@@ -81,6 +81,15 @@ Window::Window(Engine* eng, HINSTANCE hInstance, std::string window_title, std::
 		Error::Message(GetLastError(), "CreateWindowEX failed for window " + m_window_title);
 }
 
+Window::~Window()
+{
+	if (m_handle != NULL)
+	{
+		UnregisterClass(m_window_class_wide.c_str(), m_hInstance);
+		DestroyWindow(m_handle);
+	}
+}
+
 bool Window::ProcessMessages()
 {
 	MSG msg = {};
@@ -103,13 +112,4 @@ bool Window::ProcessMessages()
 	}
 
 	return true;
-}
-
-Window::~Window()
-{
-	if (m_handle != NULL)
-	{
-		UnregisterClass(this->m_window_class_wide.c_str(), this->m_hInstance);
-		DestroyWindow(m_handle);
-	}
 }

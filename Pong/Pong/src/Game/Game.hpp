@@ -7,8 +7,8 @@
 // Game.hpp
 // Handles all gameplay logic
 
-constexpr DirectX::XMFLOAT2 PADDLE_SIZE = { 100.f, 10.f };
-constexpr DirectX::XMFLOAT2 SQUARE_SIZE = { 5.f, 5.f };
+constexpr DirectX::XMFLOAT2 PADDLE_SIZE = { 50.f, 5.f };
+constexpr DirectX::XMFLOAT2 SQUARE_SIZE = { 2.5f, 2.5f };
 constexpr float PADDLE_OFFSET = 10.f;
 
 class Game
