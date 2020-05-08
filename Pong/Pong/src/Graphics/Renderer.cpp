@@ -187,7 +187,7 @@ void Renderer::initializeShaders()
 
 	UINT numElements = ARRAYSIZE(layout);
 
-	std::wstring outputPath = OutputPath::get_path();
+	std::wstring outputPath = OutputPath::get();
 
 	// init shaders
 	m_vertexShader.Initialize(m_device, outputPath + L"\\shaders\\Vertex.cso", layout, numElements);

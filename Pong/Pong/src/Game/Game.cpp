@@ -64,11 +64,11 @@ void Game::Render(Renderer& renderer)
 void Game::reset()
 {
 	// reset playfield to original positions
-	m_bottomPaddle.SetPosition({ (float)m_gameWidth / 2, m_bottomPaddle.GetPosition().y, m_bottomPaddle.GetPosition().x });
-	m_topPaddle.SetPosition({ (float)m_gameWidth / 2, m_topPaddle.GetPosition().y, m_topPaddle.GetPosition().x });
+	m_bottomPaddle.SetPosition({ (float)m_gameWidth / 2, m_bottomPaddle.GetPosition().y, m_bottomPaddle.GetPosition().z });
+	m_topPaddle.SetPosition({ (float)m_gameWidth / 2, m_topPaddle.GetPosition().y, m_topPaddle.GetPosition().z });
 
 	m_square.SetStuck(true);
-	m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y + SQUARE_SIZE.y / 2, m_square.GetPosition().y });
+	m_square.SetPosition({ m_bottomPaddle.GetPosition().x, m_bottomPaddle.GetPosition().y + m_bottomPaddle.GetSize().y + SQUARE_SIZE.y / 2, m_square.GetPosition().z });
 	m_square.SetVelocity({ 0.f, 0.f });
 
 	m_audio->StopSounds(); // stop sounds to alleviate some problems with buggy audio

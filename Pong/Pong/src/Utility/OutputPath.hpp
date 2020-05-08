@@ -8,7 +8,7 @@
 class OutputPath
 {
 public:
-	static std::wstring get_path()
+	static std::wstring get()
 	{
 		WCHAR path[MAX_PATH];
 		GetModuleFileNameW(NULL, path, MAX_PATH);

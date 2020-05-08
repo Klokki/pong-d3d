@@ -9,7 +9,7 @@ Engine::Engine(HINSTANCE hInstance, std::string window_title, std::string window
 	m_audio(),
 	m_game(width, height, &m_audio)
 {
-	std::wstring outputPath = OutputPath::get_path();
+	std::wstring outputPath = OutputPath::get();
 
 	m_audio.LoadFile(outputPath + L"\\audio\\bleep1.wav", "bleep1", *m_bleep1);
 	m_audio.LoadFile(outputPath + L"\\audio\\bleep2.wav", "bleep2", *m_bleep2);
