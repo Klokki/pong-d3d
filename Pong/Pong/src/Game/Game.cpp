@@ -15,13 +15,13 @@ Game::Game(int width, int height, AudioComponent* audio)
 void Game::HandleInput(unsigned char keycode)
 {
 	// move paddles except when touching the edges of the screen
-	if (keycode == 0x41 && m_bottomPaddle.GetPosition().x > m_bottomPaddle.GetSize().x / 2)
+	if (keycode == 0x41 && m_bottomPaddle.GetPosition().x > m_bottomPaddle.GetSize().x)
 		m_bottomPaddle.SetVelocity({ -0.5f, 0.f });
-	if (keycode == VK_LEFT && m_topPaddle.GetPosition().x > m_topPaddle.GetSize().x / 2)
+	if (keycode == VK_LEFT && m_topPaddle.GetPosition().x > m_topPaddle.GetSize().x)
 		m_topPaddle.SetVelocity({ -0.5f, 0.f });
-	if (keycode == 0x44 && m_bottomPaddle.GetPosition().x < m_gameWidth - m_bottomPaddle.GetSize().x / 2)
+	if (keycode == 0x44 && m_bottomPaddle.GetPosition().x < m_gameWidth - m_bottomPaddle.GetSize().x)
 		m_bottomPaddle.SetVelocity({ 0.5f, 0.f });
-	if (keycode == VK_RIGHT && m_topPaddle.GetPosition().x < m_gameWidth - m_topPaddle.GetSize().x / 2)
+	if (keycode == VK_RIGHT && m_topPaddle.GetPosition().x < m_gameWidth - m_topPaddle.GetSize().x)
 		m_topPaddle.SetVelocity({ 0.5f, 0.f });
 
 	// if space is pressed, unstuck the ball
