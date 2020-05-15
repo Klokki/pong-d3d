@@ -103,7 +103,7 @@ void Renderer::initializeD3D(HWND hwnd)
 
 	HRESULT hr;
 	hr = D3D11CreateDeviceAndSwapChain(adapters[0].GetAdapter(), // DXGI adapter
-		D3D_DRIVER_TYPE_UNKNOWN, // Driver type
+		D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_UNKNOWN, // Driver type
 		NULL, // For D3D_DRIVER_TYPE_SOFTWARE
 		NULL, // Layer flags
 		NULL, // D3D_FEATURE_LEVELS (use default)

@@ -11,10 +11,10 @@ public:
 	Keyboard() {}
 	void Update();
 
-	const bool KeyBufferEmpty() { return m_keyBuffer.empty(); }
+	bool KeyBufferEmpty() const { return m_keyBuffer.empty(); }
 	KeyboardEvent ReadBuffer();
 private:
-	const bool isDown(int key) { return (GetAsyncKeyState(key) & 0x8000) ? 1 : 0; };
+	bool isDown(int key) const { return (GetAsyncKeyState(key) & 0x8000) ? 1 : 0; };
 	std::queue<KeyboardEvent> m_keyBuffer;
 
 	// initialize key arrays to false

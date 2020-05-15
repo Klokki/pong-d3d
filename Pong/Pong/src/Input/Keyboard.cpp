@@ -13,27 +13,26 @@ void Keyboard::Update()
 		if (isDown(i))
 		{
 			m_currentKeyState[i] = true;
-			m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYDOWN,
-				static_cast<unsigned char>(i)));
+			m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYDOWN, static_cast<unsigned char>(i)));
 		}
 		else if (!isDown(i) && m_lastKeyState[i] == true)
 		{
 			m_currentKeyState[i] = false;
-			m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYUP,
-				static_cast<unsigned char>(i)));
+			m_keyBuffer.push(KeyboardEvent(KeyboardEvent::Type::KEYUP, static_cast<unsigned char>(i)));
 		}
 	}
 }
 
 KeyboardEvent Keyboard::ReadBuffer()
 {
-	// if key buffer is empty, return empty keyboard event
-	if (m_keyBuffer.empty())
-		return KeyboardEvent();
-	else
+	// if key buffer is not empty, return event, otherwise return empty KeyboardEvent
+	if (!KeyBufferEmpty())
 	{
 		KeyboardEvent event = m_keyBuffer.front();
 		m_keyBuffer.pop();
+
 		return event;
 	}
+
+	return KeyboardEvent();
 }
