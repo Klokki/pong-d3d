@@ -16,10 +16,12 @@ public:
 	DirectX::XMFLOAT2 GetSize() const { return m_size; }
 	DirectX::XMFLOAT2 GetVelocity() const { return m_velocity; }
 	bool IsColliding(GameObject& object) const { return m_boundingBox.Contains(object.m_boundingBox); }
+	bool WasColliding() const { return m_collided; }
 
 	void SetPosition(DirectX::XMFLOAT3 position) { m_position = position; }
 	void SetStuck(bool value) { m_stuck = value; }
 	void SetVelocity(DirectX::XMFLOAT2 value) { m_velocity = value; }
+	void SetColliding(bool colliding) { m_collided = colliding; }
 private:
 	DirectX::XMFLOAT3 m_color = { 1.f, 1.f, 1.f };
 	DirectX::XMFLOAT3 m_position;
@@ -28,4 +30,5 @@ private:
 	DirectX::BoundingBox m_boundingBox;
 
 	bool m_stuck = false;
+	bool m_collided = false;
 };

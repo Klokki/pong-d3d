@@ -81,18 +81,30 @@ void Game::checkCollisions()
 	if (m_square.IsColliding(m_topPaddle))
 	{
 		m_square.SetVelocity({ m_topPaddle.GetVelocity().x, -m_square.GetVelocity().y });
-		m_audio->PlaySound("bleep2");
+
+		if (!m_square.WasColliding())
+			m_audio->PlaySound("bleep2");
+
+		m_square.SetColliding(true);
 	}
 	else if (m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
 	{
 		m_square.SetVelocity({ m_bottomPaddle.GetVelocity().x, -m_square.GetVelocity().y });
-		m_audio->PlaySound("bleep2");
-	}
 
-	// window edge collisions
-	if (m_square.GetPosition().x <= 0.f || m_square.GetPosition().x >= m_gameWidth)
-	{
-		m_square.SetVelocity({ -m_square.GetVelocity().x, m_square.GetVelocity().y });
-		m_audio->PlaySound("bleep3");
+		if (!m_square.WasColliding())
+			m_audio->PlaySound("bleep2");
+
+		m_square.SetColliding(true);
 	}
+	else if (m_square.GetPosition().x <= 0.f || m_square.GetPosition().x >= m_gameWidth)
+	{
+		// window edge collision
+		m_square.SetVelocity({ -m_square.GetVelocity().x, m_square.GetVelocity().y });
+
+		if (!m_square.WasColliding())
+			m_audio->PlaySound("bleep3");
+
+		m_square.SetColliding(true);
+	}
+	else m_square.SetColliding(false);
 }
