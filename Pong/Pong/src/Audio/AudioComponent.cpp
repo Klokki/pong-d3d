@@ -56,9 +56,9 @@ void AudioComponent::StopSounds()
 	HRESULT hr;
 
 	// iterate through the map of sounds and stop all of them
-	for (auto const& [key, val] : m_sounds)
+	for (auto const& [key, sound] : m_sounds)
 	{
-		if (FAILED(hr = val.sourceVoice->Stop()))
+		if (FAILED(hr = sound.sourceVoice->Stop()))
 			Error::Message(hr, "Failed to stop sound " + key);
 	}
 }

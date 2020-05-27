@@ -10,6 +10,9 @@ Game::Game(int width, int height, AudioComponent* audio)
 {
 	m_square.SetStuck(true);
 	m_audio = audio;
+
+	m_paddles.push_back(&m_bottomPaddle);
+	m_paddles.push_back(&m_topPaddle);
 }
 
 void Game::HandleInput(unsigned char keycode)
@@ -77,28 +80,25 @@ void Game::reset()
 
 void Game::checkCollisions()
 {
-	// check collisions and on collision reverse ball direction maybe add the paddles to a vector and iterate through them but idgaf
-	if (m_square.IsColliding(m_topPaddle))
+	// iterate through both paddles for collision detection
+	for (GameObject* paddle : m_paddles)
 	{
-		m_square.SetVelocity({ m_topPaddle.GetVelocity().x, -m_square.GetVelocity().y });
+		// if the ball is colliding with a paddle, change the velocity
+		if (m_square.IsColliding(*paddle) && !m_square.IsStuck()) // removing the IsStuck check still causes crash
+		{
+			m_square.SetVelocity({ paddle->GetVelocity().x, -m_square.GetVelocity().y });
 
-		if (!m_square.WasColliding())
-			m_audio->PlaySound("bleep2");
+			if (!m_square.WasColliding())
+				m_audio->PlaySound("bleep2");
 
-		m_square.SetColliding(true);
+			m_square.SetColliding(true);
+		}
+		else m_square.SetColliding(false);
 	}
-	else if (m_square.IsColliding(m_bottomPaddle) && !m_square.IsStuck())
-	{
-		m_square.SetVelocity({ m_bottomPaddle.GetVelocity().x, -m_square.GetVelocity().y });
 
-		if (!m_square.WasColliding())
-			m_audio->PlaySound("bleep2");
-
-		m_square.SetColliding(true);
-	}
-	else if (m_square.GetPosition().x <= 0.f || m_square.GetPosition().x >= m_gameWidth)
+	// window edge collision
+	if (m_square.GetPosition().x <= 0.f || m_square.GetPosition().x >= m_gameWidth)
 	{
-		// window edge collision
 		m_square.SetVelocity({ -m_square.GetVelocity().x, m_square.GetVelocity().y });
 
 		if (!m_square.WasColliding())

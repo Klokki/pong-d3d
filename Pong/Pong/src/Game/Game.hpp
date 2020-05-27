@@ -23,6 +23,8 @@ private:
 	void checkCollisions();
 
 	unsigned int m_gameWidth, m_gameHeight;
+	std::vector<GameObject*> m_paddles;
+
 	GameObject m_bottomPaddle, m_topPaddle, m_square;
 	AudioComponent* m_audio;
 };

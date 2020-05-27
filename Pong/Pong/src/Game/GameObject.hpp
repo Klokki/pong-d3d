@@ -30,5 +30,5 @@ private:
 	DirectX::BoundingBox m_boundingBox;
 
 	bool m_stuck = false;
-	bool m_collided = false;
+	bool m_collided = true; // set true to prevent first frame collision sound without checking IsStuck()
 };
