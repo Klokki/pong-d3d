@@ -80,11 +80,13 @@ void Game::reset()
 
 void Game::checkCollisions()
 {
+	bool collisionFlag = false;
+
 	// iterate through both paddles for collision detection
 	for (GameObject* paddle : m_paddles)
 	{
 		// if the ball is colliding with a paddle, change the velocity
-		if (m_square.IsColliding(*paddle) && !m_square.IsStuck()) // removing the IsStuck check still causes crash
+		if (m_square.IsColliding(*paddle))
 		{
 			m_square.SetVelocity({ paddle->GetVelocity().x, -m_square.GetVelocity().y });
 
@@ -92,8 +94,8 @@ void Game::checkCollisions()
 				m_audio->PlaySound("bleep2");
 
 			m_square.SetColliding(true);
+			collisionFlag = true;
 		}
-		else m_square.SetColliding(false);
 	}
 
 	// window edge collision
@@ -105,6 +107,9 @@ void Game::checkCollisions()
 			m_audio->PlaySound("bleep3");
 
 		m_square.SetColliding(true);
+		collisionFlag = true;
 	}
-	else m_square.SetColliding(false);
+
+	if (!collisionFlag)
+		m_square.SetColliding(false);
 }
