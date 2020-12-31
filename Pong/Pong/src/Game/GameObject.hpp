@@ -15,7 +15,7 @@ public:
 	DirectX::XMFLOAT3 GetPosition() const { return m_position; }
 	DirectX::XMFLOAT2 GetSize() const { return m_size; }
 	DirectX::XMFLOAT2 GetVelocity() const { return m_velocity; }
-	bool IsColliding(GameObject& object) const { return m_boundingBox.Contains(object.m_boundingBox); }
+	bool IsColliding(GameObject& object) const { return m_boundingBox.Intersects(object.m_boundingBox); }
 	bool WasColliding() const { return m_collided; }
 
 	void SetPosition(DirectX::XMFLOAT3 position) { m_position = position; }

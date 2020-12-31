@@ -80,7 +80,7 @@ void Game::reset()
 
 void Game::checkCollisions()
 {
-	bool collisionFlag = false;
+	bool localCollisionFlag = false;
 
 	// iterate through both paddles for collision detection
 	for (GameObject* paddle : m_paddles)
@@ -88,13 +88,19 @@ void Game::checkCollisions()
 		// if the ball is colliding with a paddle, change the velocity
 		if (m_square.IsColliding(*paddle))
 		{
-			m_square.SetVelocity({ paddle->GetVelocity().x, -m_square.GetVelocity().y });
+			// hitting the left side of the paddle moves the ball towards negative x coordinates and vice versa
+			if (m_square.GetPosition().x < paddle->GetPosition().x)
+				m_square.SetVelocity({ -0.25f, -m_square.GetVelocity().y });
+			else if (m_square.GetPosition().x > paddle->GetPosition().x)
+				m_square.SetVelocity({ 0.25f, -m_square.GetVelocity().y });
+			else if (m_square.GetPosition().x == paddle->GetPosition().x)
+				m_square.SetVelocity({ 0, -m_square.GetVelocity().y });
 
 			if (!m_square.WasColliding())
 				m_audio->PlaySound("bleep2");
 
 			m_square.SetColliding(true);
-			collisionFlag = true;
+				localCollisionFlag = true;
 		}
 	}
 
@@ -107,9 +113,9 @@ void Game::checkCollisions()
 			m_audio->PlaySound("bleep3");
 
 		m_square.SetColliding(true);
-		collisionFlag = true;
+		localCollisionFlag = true;
 	}
 
-	if (!collisionFlag)
+	if (!localCollisionFlag)
 		m_square.SetColliding(false);
 }
